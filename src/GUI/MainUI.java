@@ -6,8 +6,10 @@
 package GUI;
 
 import Data2.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -39,6 +41,7 @@ public class MainUI extends javax.swing.JFrame {
 
     public MainUI() {
         initComponents();
+        myInitComponet();
         db = new DataHandler();
         String nama = "si ";
         char a = 'a';
@@ -481,6 +484,11 @@ public class MainUI extends javax.swing.JFrame {
                 menuInsertActionPerformed(evt);
             }
         });
+        menuInsert.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                menuInsertKeyPressed(evt);
+            }
+        });
         jMenu1.add(menuInsert);
 
         menuDelete.setText("Delete item");
@@ -610,6 +618,7 @@ public class MainUI extends javax.swing.JFrame {
 
     private void menuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuExitActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
         dispose();
     }//GEN-LAST:event_menuExitActionPerformed
 
@@ -617,6 +626,14 @@ public class MainUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         new About().setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+    //shortcut
+    
+    
+    
+    
+    private void menuInsertKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_menuInsertKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuInsertKeyPressed
 
     /**
      * @param args the command line arguments
@@ -691,4 +708,14 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JTable tblMahasiswa;
     private javax.swing.JTextField txtFind;
     // End of variables declaration//GEN-END:variables
+    
+    //menu shortcut
+    private void myInitComponet(){
+        menuInsert.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_I, ActionEvent.CTRL_MASK));
+        menuDelete.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+        menuExit.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
+    }
 }

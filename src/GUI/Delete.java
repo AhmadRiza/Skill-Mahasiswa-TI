@@ -6,6 +6,7 @@
 package GUI;
 
 import Data2.Array;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 /**
@@ -73,6 +74,12 @@ public class Delete extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Delete Mahasiswa");
+
+        txtFind.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtFindKeyPressed(evt);
+            }
+        });
 
         optBy.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NIM", "NAMA" }));
 
@@ -252,6 +259,15 @@ public class Delete extends javax.swing.JFrame {
 
     private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
         // TODO add your handling code here:
+        String ObjButtons[] = {"Ya", "Tidak"};
+        int PromptResult = JOptionPane.showOptionDialog(null,
+                "Apa anda yakin ingin menghapus mahasiswa ini?", "Hapus mahasiswa",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
+                ObjButtons, ObjButtons[1]);
+        if (PromptResult == 1) {
+            return;
+        }
+        
         if (MainUI.db.delete(result[COL_NIM])) {
             JOptionPane.showMessageDialog(null, "Berhasil di hapus!");
         } else {
@@ -265,6 +281,13 @@ public class Delete extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setVisible(false);
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void txtFindKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFindKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnFindActionPerformed(null);
+        }
+    }//GEN-LAST:event_txtFindKeyPressed
 
     public void setForm() {
         lblNIM.setText(result[COL_NIM]);
