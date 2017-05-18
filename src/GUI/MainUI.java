@@ -8,6 +8,8 @@ package GUI;
 import Data2.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
@@ -83,12 +85,12 @@ public class MainUI extends javax.swing.JFrame {
         this.where = txtFind.getText().trim();
         if (optFind.getSelectedIndex() == 0) {
             this.searchBy = 0;
-        } else if(optFind.getSelectedIndex()==1){
+        } else if (optFind.getSelectedIndex() == 1) {
             this.searchBy = 1;
-        }else if(optFind.getSelectedIndex()==2){
-            this.searchBy=2;
-        }else{
-            this.searchBy=4;
+        } else if (optFind.getSelectedIndex() == 2) {
+            this.searchBy = 2;
+        } else {
+            this.searchBy = 4;
         }
         this.sortBy = optSort.getSelectedItem().toString();
         this.order = optOrder.getSelectedItem().toString();
@@ -201,8 +203,8 @@ public class MainUI extends javax.swing.JFrame {
 //        updateVar();
         DefaultTableModel model = (DefaultTableModel) tblMahasiswa.getModel();
         model.setRowCount(0);
-        if (result==null||result.length==0) {
-            return ;
+        if (result == null || result.length == 0) {
+            return;
         }
         for (int i = 0; i < result.length; i++) {
             Object[] row = {result[i][COL_NIM], result[i][COL_NAMA], result[i][COL_ANGKATA], result[i][COL_JK], result[i][COL_HP], result[i][COL_SKILL]};
@@ -282,16 +284,46 @@ public class MainUI extends javax.swing.JFrame {
         });
 
         chkJava.setText("java");
+        chkJava.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkJavaActionPerformed(evt);
+            }
+        });
 
         chkPhp.setText("php");
+        chkPhp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkPhpActionPerformed(evt);
+            }
+        });
 
         chkHtml.setText("Html&Css");
+        chkHtml.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkHtmlActionPerformed(evt);
+            }
+        });
 
         chkCPP.setText("C++");
+        chkCPP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkCPPActionPerformed(evt);
+            }
+        });
 
         chkCSub.setText("C#");
+        chkCSub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkCSubActionPerformed(evt);
+            }
+        });
 
         chkPhyton.setText("Phyton");
+        chkPhyton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkPhytonActionPerformed(evt);
+            }
+        });
 
         optFind.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NIM", "NAMA", "ANGKATAN", "NO. HP" }));
         optFind.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -599,14 +631,14 @@ public class MainUI extends javax.swing.JFrame {
 
     private void txtFindKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFindKeyPressed
         // TODO add your handling code here:
-        if (evt.getKeyCode()==KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             filterTable();
         }
     }//GEN-LAST:event_txtFindKeyPressed
 
     private void optFindKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_optFindKeyPressed
         // TODO add your handling code here:
-        if (evt.getKeyCode()==KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             filterTable();
         }
     }//GEN-LAST:event_optFindKeyPressed
@@ -618,8 +650,14 @@ public class MainUI extends javax.swing.JFrame {
 
     private void menuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuExitActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-        dispose();
+        String ObjButtons[] = {"Ya", "Tidak"};
+        int PromptResult = JOptionPane.showOptionDialog(null,
+                "Apakah anda yakin ingin keluar?", "Skill Mahasiswa TI",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
+                ObjButtons, ObjButtons[1]);
+        if (PromptResult == 0) {
+            System.exit(0);
+        }
     }//GEN-LAST:event_menuExitActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -627,13 +665,41 @@ public class MainUI extends javax.swing.JFrame {
         new About().setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
     //shortcut
-    
-    
-    
-    
+
+
     private void menuInsertKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_menuInsertKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_menuInsertKeyPressed
+
+    private void chkJavaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkJavaActionPerformed
+        // TODO add your handling code here:
+        filterTable();
+    }//GEN-LAST:event_chkJavaActionPerformed
+
+    private void chkPhpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPhpActionPerformed
+        // TODO add your handling code here:
+        filterTable();
+    }//GEN-LAST:event_chkPhpActionPerformed
+
+    private void chkHtmlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkHtmlActionPerformed
+        // TODO add your handling code here:
+        filterTable();
+    }//GEN-LAST:event_chkHtmlActionPerformed
+
+    private void chkCPPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCPPActionPerformed
+        // TODO add your handling code here:
+        filterTable();
+    }//GEN-LAST:event_chkCPPActionPerformed
+
+    private void chkCSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCSubActionPerformed
+        // TODO add your handling code here:
+        filterTable();
+    }//GEN-LAST:event_chkCSubActionPerformed
+
+    private void chkPhytonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPhytonActionPerformed
+        // TODO add your handling code here:
+        filterTable();
+    }//GEN-LAST:event_chkPhytonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -708,14 +774,29 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JTable tblMahasiswa;
     private javax.swing.JTextField txtFind;
     // End of variables declaration//GEN-END:variables
-    
+
     //menu shortcut
-    private void myInitComponet(){
+    private void myInitComponet() {
         menuInsert.setAccelerator(KeyStroke.getKeyStroke(
-                        KeyEvent.VK_I, ActionEvent.CTRL_MASK));
+                KeyEvent.VK_I, ActionEvent.CTRL_MASK));
         menuDelete.setAccelerator(KeyStroke.getKeyStroke(
-                        KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+                KeyEvent.VK_D, ActionEvent.CTRL_MASK));
         menuExit.setAccelerator(KeyStroke.getKeyStroke(
-                        KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
+                KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
+
+        addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent we) {
+                String ObjButtons[] = {"Ya", "Tidak"};
+                int PromptResult = JOptionPane.showOptionDialog(null,
+                        "Apakah anda yakin ingin keluar?", "Skill Mahasiswa TI",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
+                        ObjButtons, ObjButtons[1]);
+                if (PromptResult == 0) {
+                    System.exit(0);
+                }
+            }
+        });
     }
 }
