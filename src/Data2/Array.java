@@ -39,99 +39,20 @@ public class Array {
     public String[][] sortArray(int by, String order) {
         this.by = by;
         this.order = order;
+        Heap heap=new Heap(mhs);
+        
         if (!order.equals("DESC")) {
-            QuickSort();
+            mhs=heap.heapSortASC(by);
         } else {
-            mergeSort();
+            mhs=heap.heapSortDESC(by);
         }
         return mhs;
-    }
-
-//////////////////////// QUICK SORT//////////////////////////
-    private void QuickSort() {
-        recQuickSortASC(0, nElemen - 1);
-        System.out.println(order + " Quick Sorted !!");
-    }
-
-///////////////Quick Sort ASC/////////////////////
-    private void recQuickSortASC(int batasKiri, int batasKanan) {
-        if (batasKanan - batasKiri <= 0) {
-            return;
-        } else {
-            String[] pivot = mhs[batasKanan];
-            int partisi = partitionASC(batasKiri, batasKanan, pivot);
-            recQuickSortASC(batasKiri, partisi - 1);
-            recQuickSortASC(partisi + 1, batasKanan);
-        }
-    }
-
-    private int partitionASC(int batasKiri, int batasKanan, String[] pivot) {
-        int indexKiri = batasKiri - 1;
-        int indexKanan = batasKanan + 1;
-        while (true) {
-            while (indexKiri < batasKanan
-                    && compare(mhs[++indexKiri][by], pivot[by]) < 0);
-            while (indexKanan > batasKiri
-                    && compare(mhs[--indexKanan][by], pivot[by]) > 0);
-            if (indexKiri >= indexKanan) {
-                break;
-            } else {
-                swap(indexKiri, indexKanan);
-            }
-        }
-        return indexKiri;
-    }
-
-    ////////////////////////Merge Sort////////////////////////
-    public void mergeSort() {
-        String[][] workSpace = new String[mhs.length][mhs[0].length];
-        recMergeSort(workSpace, 0, nElemen - 1);
-        System.out.println(order + " Merge Sorted !!");
-    }
-
-    public void recMergeSort(String[][] workSpace, int lowerBound, int upperBound) {
-        if (lowerBound == upperBound) {
-            return;
-        } else {
-            int mid = (lowerBound + upperBound) / 2;
-            recMergeSort(workSpace, lowerBound, mid);
-            recMergeSort(workSpace, mid + 1, upperBound);
-            merge(workSpace, lowerBound, mid + 1, upperBound);
-        }
-    }
-
-    public void merge(String[][] workSpace, int lowIndex, int highIndex, int upperBound) {
-
-        int j = 0;
-        int lowerBound = lowIndex;
-        int mid = highIndex - 1;
-        int nItem = upperBound - lowerBound + 1;
-
-        while (lowIndex <= mid && highIndex <= upperBound) {
-            if (compare(mhs[lowIndex][by], mhs[highIndex][by]) > 0) {
-                workSpace[j++] = mhs[lowIndex++];
-            } else {
-                workSpace[j++] = mhs[highIndex++];
-            }
-        }
-
-        while (lowIndex <= mid) {
-            workSpace[j++] = mhs[lowIndex++];
-        }
-
-        while (highIndex <= upperBound) {
-            workSpace[j++] = mhs[highIndex++];
-        }
-
-        for (j = 0; j < nItem; j++) {
-            mhs[lowerBound + j] = workSpace[j];
-        }
     }
 
     //search
     public String[][] search(int by, String where) {
         this.by = by;
-        this.where = where.trim();
+        this.where = where.trim().toLowerCase();
         this.whereLength = where.length();
         sortArray(by, "DESC");
         int idx = partialBinarySearch(where);
@@ -146,7 +67,7 @@ public class Array {
 
     public String[] findNIM(String where) {
         this.by = 0;
-        this.where = where.trim();
+        this.where = where.trim().toLowerCase();
         this.whereLength = where.length();
         sortArray(by, "DESC");
         int idx =  clearBinarySearch(where);
@@ -163,13 +84,13 @@ public class Array {
         String midVal;
 
         while (righIdx >= leftIdx) {
-            midVal = mhs[midIdx][by];
+            midVal = mhs[midIdx][by].toLowerCase();
 
             if (midVal.length() >= whereLength) {
-                if (midVal.substring(0, whereLength).equals(where)) {
+                if (midVal.substring(0, whereLength).toLowerCase().equals(where)) {
                     return midIdx;
                 }
-                if (compare(midVal.substring(0, whereLength), where) > 0) {
+                if (compare(midVal.substring(0, whereLength).toLowerCase(), where) > 0) {
                     leftIdx = midIdx + 1;
                 } else {
                     righIdx = midIdx - 1;
@@ -192,7 +113,7 @@ public class Array {
         String midVal;
 
         while (righIdx >= leftIdx) {
-            midVal = mhs[midIdx][by];
+            midVal = mhs[midIdx][by].toLowerCase();
 
             if (midVal.equals(where)) {
                 return midIdx;
@@ -212,7 +133,7 @@ public class Array {
         int endIdx = idx;
 
         if (idx + 1 == nMax || mhs[idx + 1][by].length() >= whereLength) {
-            while (mhs[endIdx][by].substring(0, whereLength).equals(where)) {
+            while (mhs[endIdx][by].substring(0, whereLength).toLowerCase().equals(where)) {
                 endIdx++;
                 if (endIdx == nMax) {
                     break;
@@ -221,7 +142,7 @@ public class Array {
             endIdx--;
         }
         if (idx - 1 == -1 || mhs[idx - 1][by].length() >= whereLength) {
-            while (mhs[startIdx][by].substring(0, whereLength).equals(where)) {
+            while (mhs[startIdx][by].substring(0, whereLength).toLowerCase().equals(where)) {
                 startIdx--;
                 if (startIdx == -1) {
                     break;

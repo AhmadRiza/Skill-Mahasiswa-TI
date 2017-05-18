@@ -48,25 +48,29 @@ public class MainUI extends javax.swing.JFrame {
         String nama = "si ";
         char a = 'a';
         radAll.setSelected(true);
-        ///test
+        //<test data>
         for (int i = 0; i < 30; i++) {
-            db.input("166500" + i, nama + a, 'L', 2015, "08861996", "java php");
+            db.input("166500" + i, nama + a, 'L', 2015, "08861996", "java php c#");
             a++;
         }
         a = 'a';
         for (int i = 0; i < 30; i++) {
-            db.input("176500" + i, nama + a, 'L', 2015, "08861996", "phyton");
+            db.input("176500" + i, nama + a, 'L', 2015, "08861996", "phyton c++");
             a++;
         }
         for (int i = 0; i < 30; i++) {
             db.input("186500" + i, nama + a, 'P', 2016, "08861977", "Html+CSS");
             a++;
         }
-
+        //</test data>
         filterTable();
     }
 
     public boolean search() {
+        if (result.length == 0) {////jika gk ada data
+            return false;
+        }
+        ////////////cek kosong
         if (!where.equals("")) {
             arrayHandler = new Array();
             arrayHandler.insert(result);
@@ -76,13 +80,13 @@ public class MainUI extends javax.swing.JFrame {
             } else {
                 return true;
             }
-        } else {
+        } else {//do nothing
             return true;
         }
     }
 
     public void updateVar() {
-        this.where = txtFind.getText().trim();
+        this.where = txtFind.getText().trim().toLowerCase();
         if (optFind.getSelectedIndex() == 0) {
             this.searchBy = 0;
         } else if (optFind.getSelectedIndex() == 1) {
@@ -117,6 +121,7 @@ public class MainUI extends javax.swing.JFrame {
         skills = skills.trim();
         System.out.println(skills);
         result = db.getResult(sortBy, order);
+
     }
 
     public void filterTable() {
@@ -127,11 +132,10 @@ public class MainUI extends javax.swing.JFrame {
         if (!search()) {
             JOptionPane.showMessageDialog(null, "Not found!");
             updateTableAll();
-            showRow();
         } else {
             updateTableAll();
-            showRow();
         }
+        showRow();
     }
 
     public void showRow() {
@@ -610,6 +614,7 @@ public class MainUI extends javax.swing.JFrame {
 
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
         // TODO add your handling code here:
+        this.where = txtFind.getText().trim().toLowerCase();
         filterTable();
     }//GEN-LAST:event_btnFindActionPerformed
 
@@ -783,7 +788,8 @@ public class MainUI extends javax.swing.JFrame {
                 KeyEvent.VK_D, ActionEvent.CTRL_MASK));
         menuExit.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
-
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
         addWindowListener(new WindowAdapter() {
 
             @Override

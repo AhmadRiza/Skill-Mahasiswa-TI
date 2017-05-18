@@ -5,12 +5,12 @@
             <url>src/GUI/MainUI.java</url>
             <bookmark id="1">
                 <name/>
-                <line>556</line>
+                <line>597</line>
                 <key/>
             </bookmark>
             <bookmark id="2">
                 <name/>
-                <line>648</line>
+                <line>732</line>
                 <key/>
             </bookmark>
         </file>
@@ -18,6 +18,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/Java/Skill-Mahasiswa-TI/src/GUI/About.java</file>
+            <file>file:/D:/Java/Skill-Mahasiswa-TI/src/GUI/Delete.java</file>
             <file>file:/D:/Java/Skill-Mahasiswa-TI/src/GUI/MainUI.java</file>
             <file>file:/D:/Java/Skill-Mahasiswa-TI/src/Data2/Mahasiswa.java</file>
             <file>file:/D:/Java/Skill-Mahasiswa-TI/src/Data2/Array.java</file>

@@ -47,10 +47,10 @@ public class About extends javax.swing.JFrame {
         jLabel2.setText("- Ahmad Riza - 16650053");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel3.setText("- M. Fahmi Abidin - 16650053");
+        jLabel3.setText("- M. Fahmi Abidin - 16650063");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel4.setText("- Miftakhul Ulum - 16650053");
+        jLabel4.setText("- Miftakhul Ulum - 16650125");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
