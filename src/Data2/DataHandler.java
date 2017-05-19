@@ -14,7 +14,7 @@ public class DataHandler {
     private DoublyLinkedList mhsList = new DoublyLinkedList();
     String[][] result;
 
-    public void input(String NIM, String Nama, char JK, int Angkatan, String HP, String Skills) {
+    public void insert(String NIM, String Nama, char JK, int Angkatan, String HP, String Skills) {
         Mahasiswa newLink = new Mahasiswa(NIM, Nama, JK, Angkatan, HP, Skills);
         mhsList.insertLast(newLink);
     }

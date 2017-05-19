@@ -268,8 +268,8 @@ public class Add extends javax.swing.JFrame {
         chkHtmlCSS.setSelected(false);
         chkPhyton.setSelected(false);
 
-        MainUI.db.input(NIM, Nama, JK, Angkatan, HP, Skills);
-
+        MainUI.db.insert(NIM, Nama, JK, Angkatan, HP, Skills);
+        MainUI.saved=false;
     }//GEN-LAST:event_btnADDActionPerformed
     
     

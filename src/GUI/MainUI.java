@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
@@ -37,32 +40,31 @@ public class MainUI extends javax.swing.JFrame {
     private String filterGender = "";
     private String sortBy = "";
     private String order = "";
+    public static boolean saved;
     public static String[][] result;
     public static DataHandler db;
     public static Array arrayHandler;
+    private FileRW file;
 
     public MainUI() {
         initComponents();
         myInitComponet();
         db = new DataHandler();
+        file = new FileRW();
         String nama = "si ";
         char a = 'a';
         radAll.setSelected(true);
-        //<test data>
-        for (int i = 0; i < 30; i++) {
-            db.input("166500" + i, nama + a, 'L', 2015, "08861996", "java php c#");
-            a++;
+        saved = true;
+        //load data
+        try {
+            if ((result = file.readFile()) != null) {
+                for (int i = 0; i < result.length; i++) {
+                    db.insert(result[i][COL_NIM], result[i][COL_NAMA], result[i][COL_JK].charAt(0), Integer.parseInt(result[i][COL_ANGKATA]), result[i][COL_HP], result[i][COL_SKILL]);
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        a = 'a';
-        for (int i = 0; i < 30; i++) {
-            db.input("176500" + i, nama + a, 'L', 2015, "08861996", "phyton c++");
-            a++;
-        }
-        for (int i = 0; i < 30; i++) {
-            db.input("186500" + i, nama + a, 'P', 2016, "08861977", "Html+CSS");
-            a++;
-        }
-        //</test data>
         filterTable();
     }
 
@@ -255,7 +257,7 @@ public class MainUI extends javax.swing.JFrame {
         menuInsert = new javax.swing.JMenuItem();
         menuDelete = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        menuSave = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         menuExit = new javax.swing.JMenuItem();
         menuAbout = new javax.swing.JMenu();
@@ -536,8 +538,14 @@ public class MainUI extends javax.swing.JFrame {
         jMenu1.add(menuDelete);
         jMenu1.add(jSeparator1);
 
-        jMenuItem1.setText("Save");
-        jMenu1.add(jMenuItem1);
+        menuSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        menuSave.setText("Save");
+        menuSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSaveActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuSave);
         jMenu1.add(jSeparator2);
 
         menuExit.setText("Exit");
@@ -706,6 +714,22 @@ public class MainUI extends javax.swing.JFrame {
         filterTable();
     }//GEN-LAST:event_chkPhytonActionPerformed
 
+    private void save() throws IOException {
+        updateVar();
+        file.writeFile(result);
+        JOptionPane.showMessageDialog(null, "Data telah disimpan!");
+    }
+
+    private void menuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSaveActionPerformed
+        // TODO add your handling code here:
+        try {
+            save();
+        } catch (IOException ex) {
+            Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        saved=true;
+    }//GEN-LAST:event_menuSaveActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -757,7 +781,6 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -770,6 +793,7 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuDelete;
     private javax.swing.JMenuItem menuExit;
     private javax.swing.JMenuItem menuInsert;
+    private javax.swing.JMenuItem menuSave;
     private javax.swing.JComboBox<String> optFind;
     private javax.swing.JComboBox<String> optOrder;
     private javax.swing.JComboBox<String> optSort;
@@ -789,11 +813,31 @@ public class MainUI extends javax.swing.JFrame {
         menuExit.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        
+
         addWindowListener(new WindowAdapter() {
 
             @Override
             public void windowClosing(WindowEvent we) {
+                ////saat system exit
+
+                //JIKA BELUM TERSIMPAN
+                if (!saved) {
+                    String ObjButtons[] = {"Simpan", "Tidak"};
+                    int PromptResult = JOptionPane.showOptionDialog(null,
+                            "Data belum tersimpan?", "Skill Mahasiswa TI",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
+                            ObjButtons, ObjButtons[1]);
+                    if (PromptResult == 0) {
+                        try {
+                            save();//simpan data
+                            saved=true;
+                        } catch (IOException ex) {
+                            Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+                
+                //TANYA KELUAR
                 String ObjButtons[] = {"Ya", "Tidak"};
                 int PromptResult = JOptionPane.showOptionDialog(null,
                         "Apakah anda yakin ingin keluar?", "Skill Mahasiswa TI",

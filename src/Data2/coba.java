@@ -5,24 +5,24 @@
  */
 package Data2;
 
+import java.io.IOException;
+
 /**
  *
  * @author Ahmad Riza
  */
 public class coba {
-    public static void main(String[] args) {
-        String[][] array ={{"72222","aaaaa"},{"122222","mmmm"},{"11111","cccc"},{"5555","kkkkk"}};
+    public static void main(String[] args) throws IOException {
         
-        Heap heap = new Heap(array);
-        array=heap.heapSortDESC(1);
-        
-        for (int i = 0; i < array.length; i++) {
-            System.out.print(i+".");
-            for (int j = 0; j < array[0].length; j++) {
-                System.out.print(" "+array[i][j]);
+        FileRW file = new FileRW();
+        String[][] rs = file.readFile();
+        for (int i = 0; i < rs.length; i++) {
+            for (int j = 0; j < rs[0].length; j++) {
+                System.out.print(rs[i][j]+",");
             }
             System.out.println("");
         }
+        
     }
    
 }
