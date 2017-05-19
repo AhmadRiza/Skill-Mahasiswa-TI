@@ -715,9 +715,11 @@ public class MainUI extends javax.swing.JFrame {
     }//GEN-LAST:event_chkPhytonActionPerformed
 
     private void save() throws IOException {
-        updateVar();
-        file.writeFile(result);
-        JOptionPane.showMessageDialog(null, "Data telah disimpan!");
+        if (result != null||result.length==0) {
+            updateVar();
+            file.writeFile(result);
+            JOptionPane.showMessageDialog(null, "Data telah disimpan!");
+        }
     }
 
     private void menuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSaveActionPerformed
@@ -727,7 +729,7 @@ public class MainUI extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        saved=true;
+        saved = true;
     }//GEN-LAST:event_menuSaveActionPerformed
 
     /**
@@ -830,13 +832,13 @@ public class MainUI extends javax.swing.JFrame {
                     if (PromptResult == 0) {
                         try {
                             save();//simpan data
-                            saved=true;
+                            saved = true;
                         } catch (IOException ex) {
                             Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 }
-                
+
                 //TANYA KELUAR
                 String ObjButtons[] = {"Ya", "Tidak"};
                 int PromptResult = JOptionPane.showOptionDialog(null,
