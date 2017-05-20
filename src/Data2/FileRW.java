@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 
 /**
  *
@@ -48,21 +47,24 @@ public class FileRW {
         if (!f.exists()) {
             return null;
         }
+
         this.br = new BufferedReader(new FileReader(fileLoc));
         String line;
-        while ((line = br.readLine()) != null) {
+        for (int i = 0; (line = br.readLine()) != null; i++) {
+            if (i != 0) {
+                temp += "\n";
+            }
             temp += line;
-            temp += "\n";
         }
-        
+
         String[] rows = temp.split("\n");
         String[] row = rows[0].split(",");
 
         int rowSum = rows.length;
         int colSum = row.length;
-        
+
         result = new String[rowSum][colSum];
-        
+
         for (int i = 0; i < rowSum; i++) {
             row = rows[i].split(",");
             result[i] = row;

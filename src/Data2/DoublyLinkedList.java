@@ -87,6 +87,9 @@ public class DoublyLinkedList {
     }
 
     public String[][] LoadAll(String by, String order) {
+        while (isEmpty()) {
+            return null;
+        }
         result = new String[count][6];//get data mahasiswa
         Mahasiswa current = first;
         int i = 0, j = 0;

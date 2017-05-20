@@ -22,12 +22,13 @@ public class Add extends javax.swing.JFrame {
     private String Skills = "";
     private Array arrayHandler;
     private String[][] result;
+
     /**
      * Creates new form Add
      */
     public Add() {
         initComponents();
-        
+
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
     }
 
@@ -214,22 +215,25 @@ public class Add extends javax.swing.JFrame {
     private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
         // TODO add your handling code here:
         //cek kosong
-        if ("".equals(txtNIM.getText())||"".equals(txtNama.getText())||"".equals(txtAngkatan.getText())) {
+        if ("".equals(txtNIM.getText()) || "".equals(txtNama.getText()) || "".equals(txtAngkatan.getText())) {
             JOptionPane.showMessageDialog(null, "Input Salah");
             return;
         }
-        
+
         this.NIM = txtNIM.getText().trim();
-        
-        //pencarian
-        this.arrayHandler = new Array();
-        arrayHandler.insert(MainUI.db.getResult("NIM", "ASC"));
-        //jika ada nim sama
-        if (arrayHandler.findNIM(NIM)!=null) {
-            JOptionPane.showMessageDialog(null, "NIM sudah ada!");
-            return;
+
+        if (!MainUI.empty) {
+            //pencarian
+            result = MainUI.db.getResult("NIM", "ASC");
+            this.arrayHandler = new Array();
+            arrayHandler.insert(result);
+            //jika ada nim sama
+            if (arrayHandler.findNIM(NIM) != null) {
+                JOptionPane.showMessageDialog(null, "NIM sudah ada!");
+                return;
+            }
         }
-        
+
         txtNIM.setText("");
         this.Angkatan = Integer.parseInt(txtAngkatan.getText().trim());
         txtAngkatan.setText("");
@@ -238,7 +242,7 @@ public class Add extends javax.swing.JFrame {
         this.HP = txtHP.getText().trim();
         txtHP.setText("");
         this.JK = comboJK.getSelectedItem().toString().charAt(0);
-        this.Skills="";      
+        this.Skills = "";
         if (chkJava.isSelected()) {
             Skills += " java";
         }
@@ -258,8 +262,6 @@ public class Add extends javax.swing.JFrame {
             Skills += " phyton";
         }
         Skills = Skills.trim();//hapus spasi
-        
-        
 
         chkJava.setSelected(false);
         chkPhp.setSelected(false);
@@ -269,10 +271,10 @@ public class Add extends javax.swing.JFrame {
         chkPhyton.setSelected(false);
 
         MainUI.db.insert(NIM, Nama, JK, Angkatan, HP, Skills);
-        MainUI.saved=false;
+        MainUI.saved = false;
     }//GEN-LAST:event_btnADDActionPerformed
-    
-    
+
+
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);

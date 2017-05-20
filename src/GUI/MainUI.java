@@ -45,16 +45,17 @@ public class MainUI extends javax.swing.JFrame {
     public static DataHandler db;
     public static Array arrayHandler;
     private FileRW file;
-
+    public static boolean empty;
+    
     public MainUI() {
         initComponents();
         myInitComponet();
         db = new DataHandler();
         file = new FileRW();
-        String nama = "si ";
-        char a = 'a';
+        
         radAll.setSelected(true);
         saved = true;
+        
         //load data
         try {
             if ((result = file.readFile()) != null) {
@@ -65,11 +66,12 @@ public class MainUI extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+//        db.insert("16650053", "Ahmad Riza", 'L', 2016, "0816611122", "java php");
         filterTable();
     }
 
     public boolean search() {
-        if (result.length == 0) {////jika gk ada data
+        if (result.length == 0||result==null) {////jika gk ada data
             return false;
         }
         ////////////cek kosong
@@ -123,11 +125,15 @@ public class MainUI extends javax.swing.JFrame {
         skills = skills.trim();
         System.out.println(skills);
         result = db.getResult(sortBy, order);
+        empty=(result==null);
 
     }
 
     public void filterTable() {
         updateVar();
+        if (result==null||result.length==0) {
+            return ;
+        }
         updateTableAll();
         filterSkill();
         filterJK();
@@ -715,7 +721,7 @@ public class MainUI extends javax.swing.JFrame {
     }//GEN-LAST:event_chkPhytonActionPerformed
 
     private void save() throws IOException {
-        if (result != null||result.length==0) {
+        if (result != null||result.length!=0) {
             updateVar();
             file.writeFile(result);
             JOptionPane.showMessageDialog(null, "Data telah disimpan!");
