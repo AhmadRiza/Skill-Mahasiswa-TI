@@ -22,41 +22,61 @@ public class FileRW {
     private BufferedReader br;
     private BufferedWriter bw;
     private String[][] result;
-    private final String fileLoc = System.getProperty("user.home") + "\\Documents\\mahasiswa.txt";
+    private final String directory = System.getProperty("user.home") + "\\Documents\\data-mhs";
+    private final String fileLoc = directory + "\\mahasiswa.dtm";
     private String temp = "";
 
+    public FileRW() {
+        File file = new File(directory);
+        if (!file.exists()) {
+            if (file.mkdir()) {
+                System.out.println("NEW DIRECTORY CREATED!");
+            } else {
+                System.out.println("ERR::NO DIRECTORY CREATED");
+            }
+        }
+    }
+
     public void writeFile(String[][] input) throws IOException {
+
         this.bw = new BufferedWriter(new FileWriter(fileLoc));
 
-        for (int i = 0; i < input.length; i++) {
-            for (int j = 0; j < input[0].length; j++) {
-                bw.write(input[i][j]);
-                if (j != input[0].length - 1) {
-                    bw.write(",");
+        if (input == null) {
+            bw.write("");
+        } else {
+            for (int i = 0; i < input.length; i++) {
+                for (int j = 0; j < input[0].length; j++) {
+                    bw.write(input[i][j]);
+                    if (j != input[0].length - 1) {
+                        bw.write(",");
+                    }
                 }
+                bw.newLine();
             }
-            bw.newLine();
         }
         bw.close();
         System.out.println("File Saved on >" + fileLoc);
     }
 
     public String[][] readFile() throws FileNotFoundException, IOException {
-        temp = "";
         File f = new File(fileLoc);
         if (!f.exists()) {
             return null;
         }
 
         this.br = new BufferedReader(new FileReader(fileLoc));
+        
         String line;
+        temp = "";
         for (int i = 0; (line = br.readLine()) != null; i++) {
             if (i != 0) {
                 temp += "\n";
             }
             temp += line;
         }
-
+        if (temp=="") {
+            return null;
+        }
         String[] rows = temp.split("\n");
         String[] row = rows[0].split(",");
 

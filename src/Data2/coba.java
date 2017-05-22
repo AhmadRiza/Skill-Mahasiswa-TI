@@ -15,13 +15,7 @@ public class coba {
     public static void main(String[] args) throws IOException {
         
         FileRW file = new FileRW();
-        String[][] rs = file.readFile();
-        for (int i = 0; i < rs.length; i++) {
-            for (int j = 0; j < rs[0].length; j++) {
-                System.out.print(rs[i][j]+",");
-            }
-            System.out.println("");
-        }
+//        file.writeFile();
         
     }
    

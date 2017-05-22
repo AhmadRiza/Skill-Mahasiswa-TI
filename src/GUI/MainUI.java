@@ -46,34 +46,32 @@ public class MainUI extends javax.swing.JFrame {
     public static Array arrayHandler;
     private FileRW file;
     public static boolean empty;
-    
+
     public MainUI() {
         initComponents();
         myInitComponet();
         db = new DataHandler();
         file = new FileRW();
-        
+
         radAll.setSelected(true);
         saved = true;
-        
+
         //load data
         try {
             if ((result = file.readFile()) != null) {
                 for (int i = 0; i < result.length; i++) {
                     db.insert(result[i][COL_NIM], result[i][COL_NAMA], result[i][COL_JK].charAt(0), Integer.parseInt(result[i][COL_ANGKATA]), result[i][COL_HP], result[i][COL_SKILL]);
                 }
+                filterTable();
+            } else {
+                empty = true;
             }
         } catch (IOException ex) {
             Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        db.insert("16650053", "Ahmad Riza", 'L', 2016, "0816611122", "java php");
-        filterTable();
     }
 
     public boolean search() {
-        if (result.length == 0||result==null) {////jika gk ada data
-            return false;
-        }
         ////////////cek kosong
         if (!where.equals("")) {
             arrayHandler = new Array();
@@ -125,25 +123,25 @@ public class MainUI extends javax.swing.JFrame {
         skills = skills.trim();
         System.out.println(skills);
         result = db.getResult(sortBy, order);
-        empty=(result==null);
-
+        empty = (result == null);
+        System.out.println(">var updated !");
     }
 
     public void filterTable() {
         updateVar();
-        if (result==null||result.length==0) {
-            return ;
-        }
         updateTableAll();
-        filterSkill();
-        filterJK();
-        if (!search()) {
-            JOptionPane.showMessageDialog(null, "Not found!");
-            updateTableAll();
-        } else {
-            updateTableAll();
+        if (!empty) {
+            filterSkill();
+            filterJK();
+            if (!search()) {
+                JOptionPane.showMessageDialog(null, "Not found!");
+                System.out.println("search result not found!");
+                updateTableAll();
+            } else {
+                updateTableAll();
+            }
+            showRow();
         }
-        showRow();
     }
 
     public void showRow() {
@@ -168,6 +166,7 @@ public class MainUI extends javax.swing.JFrame {
     public void filterJK() {
         DefaultTableModel model = (DefaultTableModel) tblMahasiswa.getModel();
         model.setRowCount(0);
+
         if (!filterGender.equals("")) {
             for (int i = 0; i < result.length; i++) {
                 if (result[i][COL_JK].equals(filterGender)) {
@@ -179,6 +178,7 @@ public class MainUI extends javax.swing.JFrame {
             return;
         }
         retreveTable();
+        System.out.println(">filter gender by" + filterGender);
     }
 
     ////////////////////////filter skill
@@ -209,13 +209,14 @@ public class MainUI extends javax.swing.JFrame {
             return;
         }
         retreveTable();
+        System.out.println(">filter skill by" + skills);
     }
 
     public void updateTableAll() {
 //        updateVar();
         DefaultTableModel model = (DefaultTableModel) tblMahasiswa.getModel();
         model.setRowCount(0);
-        if (result == null || result.length == 0) {
+        if (empty) {
             return;
         }
         for (int i = 0; i < result.length; i++) {
@@ -250,7 +251,7 @@ public class MainUI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         radLK = new javax.swing.JRadioButton();
         radPR = new javax.swing.JRadioButton();
-        jButton1 = new javax.swing.JButton();
+        btnFilter = new javax.swing.JButton();
         btnSort = new javax.swing.JButton();
         radAll = new javax.swing.JRadioButton();
         optOrder = new javax.swing.JComboBox<>();
@@ -416,10 +417,10 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Apply");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnFilter.setText("Apply");
+        btnFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnFilterActionPerformed(evt);
             }
         });
 
@@ -462,7 +463,7 @@ public class MainUI extends javax.swing.JFrame {
                                         .addGap(3, 3, 3)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(lblResult)
-                                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(btnSort, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel2)
@@ -491,7 +492,7 @@ public class MainUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(radPR)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(btnFilter)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                 .addComponent(lblResult)
                 .addGap(58, 58, 58))
@@ -628,7 +629,6 @@ public class MainUI extends javax.swing.JFrame {
 
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
         // TODO add your handling code here:
-        this.where = txtFind.getText().trim().toLowerCase();
         filterTable();
     }//GEN-LAST:event_btnFindActionPerformed
 
@@ -637,15 +637,14 @@ public class MainUI extends javax.swing.JFrame {
         filterTable();
     }//GEN-LAST:event_btnSortActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         // TODO add your handling code here:
         filterTable();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnFilterActionPerformed
 
     private void menuInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuInsertActionPerformed
         // TODO add your handling code here:
         new Add().setVisible(true);
-        filterTable();
     }//GEN-LAST:event_menuInsertActionPerformed
 
     private void txtFindKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFindKeyPressed
@@ -721,11 +720,15 @@ public class MainUI extends javax.swing.JFrame {
     }//GEN-LAST:event_chkPhytonActionPerformed
 
     private void save() throws IOException {
-        if (result != null||result.length!=0) {
-            updateVar();
+
+        updateVar();
+        if (!empty) {
             file.writeFile(result);
-            JOptionPane.showMessageDialog(null, "Data telah disimpan!");
+        } else {
+            file.writeFile(null);
         }
+        JOptionPane.showMessageDialog(null, "Data telah disimpan!");
+
     }
 
     private void menuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSaveActionPerformed
@@ -775,6 +778,7 @@ public class MainUI extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFilter;
     private javax.swing.JButton btnFind;
     private javax.swing.JButton btnSort;
     private javax.swing.JCheckBox chkCPP;
@@ -783,7 +787,6 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkJava;
     private javax.swing.JCheckBox chkPhp;
     private javax.swing.JCheckBox chkPhyton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
