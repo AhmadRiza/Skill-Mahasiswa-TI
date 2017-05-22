@@ -78,6 +78,7 @@ public class MainUI extends javax.swing.JFrame {
             arrayHandler.insert(result);
             result = arrayHandler.search(searchBy, where);
             if (result == null) {
+                empty=true;
                 return false;
             } else {
                 return true;
@@ -178,7 +179,7 @@ public class MainUI extends javax.swing.JFrame {
             return;
         }
         retreveTable();
-        System.out.println(">filter gender by" + filterGender);
+        System.out.println(">filter gender by " + filterGender);
     }
 
     ////////////////////////filter skill
@@ -210,7 +211,7 @@ public class MainUI extends javax.swing.JFrame {
             return;
         }
         retreveTable();
-        System.out.println(">filter skill by" + skills);
+        System.out.println(">filter skill by " + skills);
     }
 
     public void updateTableAll() {
@@ -220,9 +221,7 @@ public class MainUI extends javax.swing.JFrame {
         if (empty) {
             return;
         }
-        if (empty) {
-            return;
-        }
+       
         for (int i = 0; i < result.length; i++) {
             Object[] row = {result[i][COL_NIM], result[i][COL_NAMA], result[i][COL_ANGKATA], result[i][COL_JK], result[i][COL_HP], result[i][COL_SKILL]};
             model.addRow(row);
