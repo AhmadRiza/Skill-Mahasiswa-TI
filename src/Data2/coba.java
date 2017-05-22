@@ -14,9 +14,7 @@ import java.io.IOException;
 public class coba {
     public static void main(String[] args) throws IOException {
         
-        FileRW file = new FileRW();
-//        file.writeFile();
-        
+        System.out.println(Integer.parseInt("9"));
     }
    
 }

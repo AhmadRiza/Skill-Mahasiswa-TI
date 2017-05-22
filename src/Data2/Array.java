@@ -65,8 +65,8 @@ public class Array {
         return searchRes;
     }
 
-    public String[] findNIM(String where) {
-        this.by = 0;
+    public String[] find(int by, String where) {
+        this.by = by;
         this.where = where.trim().toLowerCase();
         this.whereLength = where.length();
         sortArray(by, "DESC");

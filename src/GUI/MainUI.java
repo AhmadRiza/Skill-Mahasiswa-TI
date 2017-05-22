@@ -198,6 +198,7 @@ public class MainUI extends javax.swing.JFrame {
     private void filterSkill() {
         DefaultTableModel model = (DefaultTableModel) tblMahasiswa.getModel();
         model.setRowCount(0);//reset the table
+
         if (!skills.equals("")) {
             for (int i = 0; i < result.length; i++) {
                 if (checkSkill(result[i][COL_SKILL])) {
@@ -213,9 +214,12 @@ public class MainUI extends javax.swing.JFrame {
     }
 
     public void updateTableAll() {
-//        updateVar();
+
         DefaultTableModel model = (DefaultTableModel) tblMahasiswa.getModel();
         model.setRowCount(0);
+        if (empty) {
+            return;
+        }
         if (empty) {
             return;
         }

@@ -37,7 +37,7 @@ public class Delete extends javax.swing.JFrame {
     }
 
     public void updateVar() {
-        this.where = txtFind.getText().trim();
+        this.where = txtFind.getText().trim().toLowerCase();
         this.by = optBy.getSelectedIndex();
     }
 
@@ -82,6 +82,11 @@ public class Delete extends javax.swing.JFrame {
         });
 
         optBy.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NIM", "NAMA" }));
+        optBy.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                optByKeyPressed(evt);
+            }
+        });
 
         btnFind.setText("Find");
         btnFind.addActionListener(new java.awt.event.ActionListener() {
@@ -245,7 +250,7 @@ public class Delete extends javax.swing.JFrame {
         arrayHandler.insert(MainUI.db.getResult("NIM", "ASC"));
 
         if (!txtFind.getText().equals("")) {
-            result = arrayHandler.findNIM(where);
+            result = arrayHandler.find(by,where);
             if (result == null) {
                 JOptionPane.showMessageDialog(null, "Kata kunci tidak ditemukan!");
                 return;
@@ -289,6 +294,13 @@ public class Delete extends javax.swing.JFrame {
             btnFindActionPerformed(null);
         }
     }//GEN-LAST:event_txtFindKeyPressed
+
+    private void optByKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_optByKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnFindActionPerformed(null);
+        }
+    }//GEN-LAST:event_optByKeyPressed
 
     public void setForm() {
         lblNIM.setText(result[COL_NIM]);

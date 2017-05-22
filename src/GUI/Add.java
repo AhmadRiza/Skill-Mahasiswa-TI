@@ -133,10 +133,12 @@ public class Add extends javax.swing.JFrame {
                     .addComponent(chkHtmlCSS))
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(chkPhp)
-                    .addComponent(chkPhyton)
-                    .addComponent(chkCSub))
-                .addGap(134, 134, 134))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chkPhyton)
+                            .addComponent(chkCSub))
+                        .addGap(134, 134, 134))
+                    .addComponent(chkPhp)))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -211,31 +213,63 @@ public class Add extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    private boolean checkInt(String s){
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e) {
+            System.out.println("NOT NUMBER!");
+        }
+        return false;
+    }
+    
+    private boolean hpValidate(String s){
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e) {
+            if (s.charAt(0)=='+') {
+                return true;
+            }
+            System.out.println("NOT VALID NO. HP");
+        }
+        return false;
+    }
+    
     private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
         // TODO add your handling code here:
         //cek kosong
         if ("".equals(txtNIM.getText()) || "".equals(txtNama.getText()) || "".equals(txtAngkatan.getText())) {
-            JOptionPane.showMessageDialog(null, "Input Salah");
+            JOptionPane.showMessageDialog(null, "Semua form harus diisi!");
             return;
         }
-
+        //cek input salah
+        if (!checkInt(txtAngkatan.getText())||!checkInt(txtNIM.getText())) {
+            JOptionPane.showMessageDialog(null, "Form NIM dan Angkatan harus diisi angka!");
+            return;
+        }
+        //validasi Hp
+        if (!hpValidate(txtHP.getText())) {
+            JOptionPane.showMessageDialog(null, "No. Hp tidak valid!");
+            return;
+        }
+        
         this.NIM = txtNIM.getText().trim();
-
+        
         if (!MainUI.empty) {
             //pencarian
             result = MainUI.db.getResult("NIM", "ASC");
             this.arrayHandler = new Array();
             arrayHandler.insert(result);
             //jika ada nim sama
-            if (arrayHandler.findNIM(NIM) != null) {
+            if (arrayHandler.find(0,NIM) != null) {
                 JOptionPane.showMessageDialog(null, "NIM sudah ada!");
                 return;
             }
         }
-
-        txtNIM.setText("");
         this.Angkatan = Integer.parseInt(txtAngkatan.getText().trim());
+        txtNIM.setText("");
         txtAngkatan.setText("");
         this.Nama = txtNama.getText().trim().toUpperCase();
         txtNama.setText("");
