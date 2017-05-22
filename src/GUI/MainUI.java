@@ -260,9 +260,11 @@ public class MainUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMahasiswa = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        menuRefresh = new javax.swing.JMenu();
         menuInsert = new javax.swing.JMenuItem();
         menuDelete = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         menuSave = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -289,7 +291,7 @@ public class MainUI extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("<html>\n<b>\nSKILL<br> MAHASISWA <br>TI\n</b>\n</htmll>");
 
-        btnFind.setText("Find");
+        btnFind.setText("Search");
         btnFind.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFindActionPerformed(evt);
@@ -521,7 +523,7 @@ public class MainUI extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("File");
+        menuRefresh.setText("File");
 
         menuInsert.setText("Insert item");
         menuInsert.addActionListener(new java.awt.event.ActionListener() {
@@ -534,7 +536,7 @@ public class MainUI extends javax.swing.JFrame {
                 menuInsertKeyPressed(evt);
             }
         });
-        jMenu1.add(menuInsert);
+        menuRefresh.add(menuInsert);
 
         menuDelete.setText("Delete item");
         menuDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -542,8 +544,18 @@ public class MainUI extends javax.swing.JFrame {
                 menuDeleteActionPerformed(evt);
             }
         });
-        jMenu1.add(menuDelete);
-        jMenu1.add(jSeparator1);
+        menuRefresh.add(menuDelete);
+        menuRefresh.add(jSeparator3);
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        jMenuItem1.setText("Refresh");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menuRefresh.add(jMenuItem1);
+        menuRefresh.add(jSeparator1);
 
         menuSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         menuSave.setText("Save");
@@ -552,8 +564,8 @@ public class MainUI extends javax.swing.JFrame {
                 menuSaveActionPerformed(evt);
             }
         });
-        jMenu1.add(menuSave);
-        jMenu1.add(jSeparator2);
+        menuRefresh.add(menuSave);
+        menuRefresh.add(jSeparator2);
 
         menuExit.setText("Exit");
         menuExit.addActionListener(new java.awt.event.ActionListener() {
@@ -561,9 +573,9 @@ public class MainUI extends javax.swing.JFrame {
                 menuExitActionPerformed(evt);
             }
         });
-        jMenu1.add(menuExit);
+        menuRefresh.add(menuExit);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(menuRefresh);
 
         menuAbout.setText("Help");
 
@@ -741,6 +753,11 @@ public class MainUI extends javax.swing.JFrame {
         saved = true;
     }//GEN-LAST:event_menuSaveActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        filterTable();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -790,8 +807,8 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -799,11 +816,13 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JLabel lblResult;
     private javax.swing.JMenu menuAbout;
     private javax.swing.JMenuItem menuDelete;
     private javax.swing.JMenuItem menuExit;
     private javax.swing.JMenuItem menuInsert;
+    private javax.swing.JMenu menuRefresh;
     private javax.swing.JMenuItem menuSave;
     private javax.swing.JComboBox<String> optFind;
     private javax.swing.JComboBox<String> optOrder;

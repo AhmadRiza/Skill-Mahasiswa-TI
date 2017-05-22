@@ -237,7 +237,7 @@ public class Add extends javax.swing.JFrame {
         txtNIM.setText("");
         this.Angkatan = Integer.parseInt(txtAngkatan.getText().trim());
         txtAngkatan.setText("");
-        this.Nama = txtNama.getText().trim();
+        this.Nama = txtNama.getText().trim().toUpperCase();
         txtNama.setText("");
         this.HP = txtHP.getText().trim();
         txtHP.setText("");
@@ -269,9 +269,10 @@ public class Add extends javax.swing.JFrame {
         chkCSub.setSelected(false);
         chkHtmlCSS.setSelected(false);
         chkPhyton.setSelected(false);
-
+        
         MainUI.db.insert(NIM, Nama, JK, Angkatan, HP, Skills);
         MainUI.saved = false;
+        
     }//GEN-LAST:event_btnADDActionPerformed
 
 
