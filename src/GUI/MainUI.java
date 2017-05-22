@@ -5,7 +5,9 @@
  */
 package GUI;
 
-import Data2.*;
+import DataEngine.FileRW;
+import DataEngine.DataHandler;
+import DataEngine.Array;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;

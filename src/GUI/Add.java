@@ -5,7 +5,7 @@
  */
 package GUI;
 
-import Data2.Array;
+import DataEngine.Array;
 import javax.swing.JOptionPane;
 
 /**

@@ -5,7 +5,7 @@
  */
 package GUI;
 
-import Data2.Array;
+import DataEngine.Array;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
