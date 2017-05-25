@@ -357,6 +357,10 @@ public class Update extends javax.swing.JFrame {
         MainUI.db.delete(searchRes[COL_NIM]);
         MainUI.db.insert(NIM, Nama, JK, Angkatan, HP, Skills);
         MainUI.saved = false;
+        System.out.println("data updated");
+        JOptionPane.showMessageDialog(null, "Data berhasil diperbarui!");
+        resetForm();
+        setEnable(false);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     public void setForm() {
@@ -393,17 +397,7 @@ public class Update extends javax.swing.JFrame {
     }
 
     public void resetForm() {
-        txtNIM.setText("");
-        txtNama.setText("");
-        txtHP.setText("");
-        txtAngkatan.setText("");
-        chkJava.setSelected(false);
-        chkPhp.setSelected(false);
-        chkCPP.setSelected(false);
-        chkCSub.setSelected(false);
-        chkHtmlCSS.setSelected(false);
-        chkPhyton.setSelected(false);
-        comboJK.setSelectedIndex(0);
+        txtWhere.setText("");
     }
     
     public void setEnable(boolean cond){
