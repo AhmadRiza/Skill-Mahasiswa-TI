@@ -13,8 +13,8 @@ import java.io.IOException;
  */
 public class coba {
     public static void main(String[] args) throws IOException {
-        
-        System.out.println(Integer.parseInt("9"));
+        String s ="0883667k";
+        System.out.println(s.substring(3,s.length()));
     }
    
 }

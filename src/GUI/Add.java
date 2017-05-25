@@ -213,8 +213,8 @@ public class Add extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    private boolean checkInt(String s){
+
+    private boolean checkInt(String s) {
         try {
             Integer.parseInt(s);
             return true;
@@ -223,20 +223,23 @@ public class Add extends javax.swing.JFrame {
         }
         return false;
     }
-    
-    private boolean hpValidate(String s){
+
+    private boolean hpValidate(String s) {
+
         try {
-            Integer.parseInt(s);
+            if (s.charAt(0) == '+') {
+                Integer.parseInt(s.substring(1, s.length() / 2));
+            } else {
+                Integer.parseInt(s.substring(0, s.length() / 2));
+            }
+            Integer.parseInt(s.substring(s.length() / 2 + 1, s.length()));
             return true;
         } catch (NumberFormatException e) {
-            if (s.charAt(0)=='+') {
-                return true;
-            }
             System.out.println("NOT VALID NO. HP");
         }
         return false;
     }
-    
+
     private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
         // TODO add your handling code here:
         //cek kosong
@@ -245,7 +248,7 @@ public class Add extends javax.swing.JFrame {
             return;
         }
         //cek input salah
-        if (!checkInt(txtAngkatan.getText())||!checkInt(txtNIM.getText())) {
+        if (!checkInt(txtAngkatan.getText()) || !checkInt(txtNIM.getText())) {
             JOptionPane.showMessageDialog(null, "Form NIM dan Angkatan harus diisi angka!");
             return;
         }
@@ -254,16 +257,16 @@ public class Add extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No. Hp tidak valid!");
             return;
         }
-        
+
         this.NIM = txtNIM.getText().trim();
-        
+
         if (!MainUI.empty) {
             //pencarian
             result = MainUI.db.getResult("NIM", "ASC");
             this.arrayHandler = new Array();
             arrayHandler.insert(result);
             //jika ada nim sama
-            if (arrayHandler.find(0,NIM) != null) {
+            if (arrayHandler.find(0, NIM) != null) {
                 JOptionPane.showMessageDialog(null, "NIM sudah ada!");
                 return;
             }
@@ -303,10 +306,9 @@ public class Add extends javax.swing.JFrame {
         chkCSub.setSelected(false);
         chkHtmlCSS.setSelected(false);
         chkPhyton.setSelected(false);
-        
+
         MainUI.db.insert(NIM, Nama, JK, Angkatan, HP, Skills);
         MainUI.saved = false;
-        
     }//GEN-LAST:event_btnADDActionPerformed
 
 

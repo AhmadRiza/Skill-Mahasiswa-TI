@@ -73,6 +73,7 @@ public class MainUI extends javax.swing.JFrame {
         }
     }
 
+    ///GUI ENGINE BELLOW
     public boolean search() {
         ////////////cek kosong
         if (!where.equals("")) {
@@ -80,7 +81,7 @@ public class MainUI extends javax.swing.JFrame {
             arrayHandler.insert(result);
             result = arrayHandler.search(searchBy, where);
             if (result == null) {
-                empty=true;
+                empty = true;
                 return false;
             } else {
                 return true;
@@ -92,6 +93,7 @@ public class MainUI extends javax.swing.JFrame {
 
     public void updateVar() {
         this.where = txtFind.getText().trim().toLowerCase();
+        //cek cari dengan apa
         if (optFind.getSelectedIndex() == 0) {
             this.searchBy = 0;
         } else if (optFind.getSelectedIndex() == 1) {
@@ -101,10 +103,20 @@ public class MainUI extends javax.swing.JFrame {
         } else {
             this.searchBy = 4;
         }
+        //cek filter jk
+        if (radLK.isSelected()) {
+            this.filterGender="L";
+        }else if (radPR.isSelected()) {
+            this.filterGender="P";
+        }else{
+            this.filterGender="";
+        }
+        //sortby inisialisasi
         this.sortBy = optSort.getSelectedItem().toString();
         this.order = optOrder.getSelectedItem().toString();
+        
+        //cek skill
         this.skills = "";
-
         if (chkJava.isSelected()) {
             skills += " java";
         }
@@ -129,7 +141,23 @@ public class MainUI extends javax.swing.JFrame {
         empty = (result == null);
         System.out.println(">var updated !");
     }
-
+    
+    public void resetForm(){
+        txtFind.setText("");
+        chkJava.setSelected(false);
+        chkPhp.setSelected(false);
+        chkPhyton.setSelected(false);
+        chkHtml.setSelected(false);
+        chkCPP.setSelected(false);
+        chkCSub.setSelected(false);
+        radAll.setSelected(true);
+        radPR.setSelected(false);
+        radLK.setSelected(false);
+        optSort.setSelectedIndex(0);
+        optOrder.setSelectedIndex(0);
+    }
+    
+    
     public void filterTable() {
         updateVar();
         updateTableAll();
@@ -137,7 +165,7 @@ public class MainUI extends javax.swing.JFrame {
             filterSkill();
             filterJK();
             if (!search()) {
-                JOptionPane.showMessageDialog(null, "Not found!");
+//                JOptionPane.showMessageDialog(null, "Not found!");
                 System.out.println("search result not found!");
                 updateTableAll();
             } else {
@@ -223,7 +251,7 @@ public class MainUI extends javax.swing.JFrame {
         if (empty) {
             return;
         }
-       
+
         for (int i = 0; i < result.length; i++) {
             Object[] row = {result[i][COL_NIM], result[i][COL_NAMA], result[i][COL_ANGKATA], result[i][COL_JK], result[i][COL_HP], result[i][COL_SKILL]};
             model.addRow(row);
@@ -265,11 +293,11 @@ public class MainUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMahasiswa = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
-        menuRefresh = new javax.swing.JMenu();
+        fileMenu = new javax.swing.JMenu();
         menuInsert = new javax.swing.JMenuItem();
         menuDelete = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        menuRefresh = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         menuSave = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -281,14 +309,15 @@ public class MainUI extends javax.swing.JFrame {
         setTitle("Skill Mahasiswa TI");
 
         txtFind.setToolTipText("Insert Nama");
-        txtFind.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFindActionPerformed(evt);
-            }
-        });
         txtFind.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtFindKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFindKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFindKeyTyped(evt);
             }
         });
 
@@ -528,7 +557,7 @@ public class MainUI extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
-        menuRefresh.setText("File");
+        fileMenu.setText("File");
 
         menuInsert.setText("Insert item");
         menuInsert.addActionListener(new java.awt.event.ActionListener() {
@@ -541,7 +570,7 @@ public class MainUI extends javax.swing.JFrame {
                 menuInsertKeyPressed(evt);
             }
         });
-        menuRefresh.add(menuInsert);
+        fileMenu.add(menuInsert);
 
         menuDelete.setText("Delete item");
         menuDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -549,18 +578,18 @@ public class MainUI extends javax.swing.JFrame {
                 menuDeleteActionPerformed(evt);
             }
         });
-        menuRefresh.add(menuDelete);
-        menuRefresh.add(jSeparator3);
+        fileMenu.add(menuDelete);
+        fileMenu.add(jSeparator3);
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
-        jMenuItem1.setText("Refresh");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        menuRefresh.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        menuRefresh.setText("Refresh");
+        menuRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                menuRefreshActionPerformed(evt);
             }
         });
-        menuRefresh.add(jMenuItem1);
-        menuRefresh.add(jSeparator1);
+        fileMenu.add(menuRefresh);
+        fileMenu.add(jSeparator1);
 
         menuSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         menuSave.setText("Save");
@@ -569,8 +598,8 @@ public class MainUI extends javax.swing.JFrame {
                 menuSaveActionPerformed(evt);
             }
         });
-        menuRefresh.add(menuSave);
-        menuRefresh.add(jSeparator2);
+        fileMenu.add(menuSave);
+        fileMenu.add(jSeparator2);
 
         menuExit.setText("Exit");
         menuExit.addActionListener(new java.awt.event.ActionListener() {
@@ -578,9 +607,9 @@ public class MainUI extends javax.swing.JFrame {
                 menuExitActionPerformed(evt);
             }
         });
-        menuRefresh.add(menuExit);
+        fileMenu.add(menuExit);
 
-        jMenuBar1.add(menuRefresh);
+        jMenuBar1.add(fileMenu);
 
         menuAbout.setText("Help");
 
@@ -619,29 +648,22 @@ public class MainUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFindActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFindActionPerformed
-
     private void radLKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radLKActionPerformed
         // TODO add your handling code here:
         radAll.setSelected(false);
         radPR.setSelected(false);
-        this.filterGender = "L";
     }//GEN-LAST:event_radLKActionPerformed
 
     private void radPRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPRActionPerformed
         // TODO add your handling code here:
         radLK.setSelected(false);
         radAll.setSelected(false);
-        this.filterGender = "P";
     }//GEN-LAST:event_radPRActionPerformed
 
     private void radAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radAllActionPerformed
         // TODO add your handling code here:
         radLK.setSelected(false);
         radPR.setSelected(false);
-        this.filterGender = "";
     }//GEN-LAST:event_radAllActionPerformed
 
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
@@ -758,10 +780,21 @@ public class MainUI extends javax.swing.JFrame {
         saved = true;
     }//GEN-LAST:event_menuSaveActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void menuRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRefreshActionPerformed
+        // TODO add your handling code here:
+        resetForm();
+        filterTable();
+    }//GEN-LAST:event_menuRefreshActionPerformed
+
+    private void txtFindKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFindKeyTyped
         // TODO add your handling code here:
         filterTable();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_txtFindKeyTyped
+
+    private void txtFindKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFindKeyReleased
+        // TODO add your handling code here:
+        filterTable();
+    }//GEN-LAST:event_txtFindKeyReleased
 
     /**
      * @param args the command line arguments
@@ -809,11 +842,11 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkJava;
     private javax.swing.JCheckBox chkPhp;
     private javax.swing.JCheckBox chkPhyton;
+    private javax.swing.JMenu fileMenu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -827,7 +860,7 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuDelete;
     private javax.swing.JMenuItem menuExit;
     private javax.swing.JMenuItem menuInsert;
-    private javax.swing.JMenu menuRefresh;
+    private javax.swing.JMenuItem menuRefresh;
     private javax.swing.JMenuItem menuSave;
     private javax.swing.JComboBox<String> optFind;
     private javax.swing.JComboBox<String> optOrder;
