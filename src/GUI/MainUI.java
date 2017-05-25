@@ -296,6 +296,7 @@ public class MainUI extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         menuInsert = new javax.swing.JMenuItem();
         menuDelete = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         menuRefresh = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
@@ -375,6 +376,11 @@ public class MainUI extends javax.swing.JFrame {
         });
 
         optFind.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NIM", "NAMA", "ANGKATAN", "NO. HP" }));
+        optFind.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optFindActionPerformed(evt);
+            }
+        });
         optFind.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 optFindKeyPressed(evt);
@@ -559,7 +565,7 @@ public class MainUI extends javax.swing.JFrame {
 
         fileMenu.setText("File");
 
-        menuInsert.setText("Insert item");
+        menuInsert.setText("Insert mahasiswa");
         menuInsert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuInsertActionPerformed(evt);
@@ -572,13 +578,22 @@ public class MainUI extends javax.swing.JFrame {
         });
         fileMenu.add(menuInsert);
 
-        menuDelete.setText("Delete item");
+        menuDelete.setText("Delete mahasiswa");
         menuDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuDeleteActionPerformed(evt);
             }
         });
         fileMenu.add(menuDelete);
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("Update mahasiswa");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem1);
         fileMenu.add(jSeparator3);
 
         menuRefresh.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
@@ -796,6 +811,16 @@ public class MainUI extends javax.swing.JFrame {
         filterTable();
     }//GEN-LAST:event_txtFindKeyReleased
 
+    private void optFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optFindActionPerformed
+        // TODO add your handling code here:
+        filterTable();
+    }//GEN-LAST:event_optFindActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        new Update().setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -847,6 +872,7 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
