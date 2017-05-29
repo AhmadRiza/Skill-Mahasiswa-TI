@@ -18,7 +18,6 @@ public class Mahasiswa {
     private String Skills;
     
     public Mahasiswa next;
-    public Mahasiswa previous;
 
     public Mahasiswa(String NIM, String Nama, char JK, int Angkatan, String HP, String Skills) {
         this.NIM = NIM;
@@ -80,13 +79,5 @@ public class Mahasiswa {
         return HP;
     }
 
-    public Mahasiswa getNext() {
-        return next;
-    }
-
-    public Mahasiswa getPrevious() {
-        return previous;
-    }
-    
     
 }

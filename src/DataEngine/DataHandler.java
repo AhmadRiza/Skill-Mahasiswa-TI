@@ -11,7 +11,7 @@ package DataEngine;
  */
 public class DataHandler {
 
-    private DoublyLinkedList mhsList = new DoublyLinkedList();
+    private LinkedList mhsList = new LinkedList();
     String[][] result;
 
     public void insert(String NIM, String Nama, char JK, int Angkatan, String HP, String Skills) {

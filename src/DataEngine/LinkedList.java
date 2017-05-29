@@ -1,91 +1,61 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package DataEngine;
 
-public class DoublyLinkedList {
-
+/**
+ *
+ * @author Ahmad Riza
+ */
+public class LinkedList {
     private Mahasiswa first;
     private Mahasiswa last;
     private int count;
     String[][] result;
     private Array sortHandler;
 
-    public DoublyLinkedList() {
+    public LinkedList() {
         first = null;
         last = null;
         sortHandler = new Array();
     }
-
-    public boolean isEmpty() {
-        return first == null;
+    
+    public boolean isEmpty(){
+        return first==null;
     }
-
-    public void insertFirst(Mahasiswa newLink) {
-        if (isEmpty()) {
-            last = newLink;
-        } else {
-            first.previous = newLink;
-        }
-        newLink.next = first;
-        first = newLink;
-        count++;
-    }
-
+    
     public void insertLast(Mahasiswa newLink) {
         if (isEmpty()) {
             first = newLink;
         } else {
             last.next = newLink;
-            newLink.previous = last;
         }
         last = newLink;
         count++;
     }
-
-    public Mahasiswa deleteFirst() {
-        Mahasiswa temp = first;
-        if (first.next == null) {
-            last = null;
-        } else {
-            first.next.previous = null;
-        }
-        first = first.next;
-        return temp;
-    }
-
-    public Mahasiswa deleteLast() {
-        Mahasiswa temp = last;
-        if (first.next == null) {
-            first = null;
-        } else {
-            last.previous.next = null;
-        }
-        last = last.previous;
-        return temp;
-    }
-
-    public boolean deleteKey(String key) {
+    
+    public boolean deleteKey(String key){
         Mahasiswa current = first;
-
+        Mahasiswa previous = first;
         while (!current.getNIM().equals(key)) {
-            current = current.next;
-            if (current == null) {
+            if (current.next == null) {
                 return false;
+            }else{
+                previous = current;
+                current = current.next;
             }
         }
-
         if (current == first) {
-            first = current.next;
-        } else {
-            current.previous.next = current.next;
-        }
-        if (current == last) {
-            last = current.previous;
-        } else {
-            current.next.previous = current.previous;
+            first = first.next;
+        }else{
+            previous.next = current.next;
         }
         count--;
         return true;
     }
-
+    
     public String[][] LoadAll(String by, String order) {
         while (isEmpty()) {
             return null;
@@ -117,4 +87,8 @@ public class DoublyLinkedList {
         }
         return result;
     }
+    
+
+    
+    
 }

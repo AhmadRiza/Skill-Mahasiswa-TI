@@ -48,7 +48,10 @@ public class MainUI extends javax.swing.JFrame {
     public static Array arrayHandler;
     private FileRW file;
     public static boolean empty;
-
+    
+    /**
+     * CONSTRUCTOR
+     */
     public MainUI() {
         initComponents();
         myInitComponet();
@@ -58,7 +61,7 @@ public class MainUI extends javax.swing.JFrame {
         radAll.setSelected(true);
         saved = true;
 
-        //load data
+        //MUAT DATA DARI DISK
         try {
             if ((result = file.readFile()) != null) {
                 for (int i = 0; i < result.length; i++) {
@@ -72,8 +75,12 @@ public class MainUI extends javax.swing.JFrame {
             Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    ///GUI ENGINE BELLOW
+    //END
+    
+    /**
+     * METHOD SEARCH
+     * @return BOOLEAN HASIL
+     */
     public boolean search() {
         ////////////cek kosong
         if (!where.equals("")) {
@@ -90,7 +97,11 @@ public class MainUI extends javax.swing.JFrame {
             return true;
         }
     }
-
+//    END
+    
+    /**
+     *UPDATE SEMUA VARIABEL 
+     */
     public void updateVar() {
         this.where = txtFind.getText().trim().toLowerCase();
         //cek cari dengan apa
@@ -112,7 +123,7 @@ public class MainUI extends javax.swing.JFrame {
             this.filterGender="";
         }
         //sortby inisialisasi
-        this.sortBy = optSort.getSelectedItem().toString();
+        this.sortBy = optSort.getSelectedItem().toString().toLowerCase();
         this.order = optOrder.getSelectedItem().toString();
         
         //cek skill
@@ -141,7 +152,10 @@ public class MainUI extends javax.swing.JFrame {
         empty = (result == null);
         System.out.println(">var updated !");
     }
-    
+//    END
+    /**
+     * RESET KOSONG SEMUA FORM
+     */
     public void resetForm(){
         txtFind.setText("");
         chkJava.setSelected(false);
@@ -156,8 +170,10 @@ public class MainUI extends javax.swing.JFrame {
         optSort.setSelectedIndex(0);
         optOrder.setSelectedIndex(0);
     }
-    
-    
+//    END
+    /**
+     * FILTER SEMUA ROW TABEL
+     */
     public void filterTable() {
         updateVar();
         updateTableAll();
@@ -165,7 +181,6 @@ public class MainUI extends javax.swing.JFrame {
             filterSkill();
             filterJK();
             if (!search()) {
-//                JOptionPane.showMessageDialog(null, "Not found!");
                 System.out.println("search result not found!");
                 updateTableAll();
             } else {
@@ -174,12 +189,18 @@ public class MainUI extends javax.swing.JFrame {
             showRow();
         }
     }
-
+    //END
+    /**
+     * TAMPILKAN JUMLAH ROW TABLE
+     */
     public void showRow() {
         TableModel dtm = tblMahasiswa.getModel();
         lblResult.setText("Result = " + dtm.getRowCount() + " row");
     }
-
+    //END
+    /**
+     * SIMPAN SEMUA VALUE PADA TABLE
+     */
     public void retreveTable() {
         TableModel dtm = tblMahasiswa.getModel();
         int nRow = dtm.getRowCount(), nCol = dtm.getColumnCount();
@@ -192,8 +213,11 @@ public class MainUI extends javax.swing.JFrame {
         }
         result = tableData;
     }
-
-    //filter JK
+    //END
+    
+    /**
+     * FILTER JENIS KELAMIN
+     */
     public void filterJK() {
         DefaultTableModel model = (DefaultTableModel) tblMahasiswa.getModel();
         model.setRowCount(0);
@@ -208,11 +232,15 @@ public class MainUI extends javax.swing.JFrame {
         } else {
             return;
         }
-        retreveTable();
+        retreveTable(); //SIMPAN HASIL FILTER
         System.out.println(">filter gender by " + filterGender);
     }
-
-    ////////////////////////filter skill
+    //END
+    /**
+     * CEK SKILL
+     * @param SKILL YANG DI CARI
+     * @return BOOLEAN HASIL
+     */
     public boolean checkSkill(String s) {
         String[] sk = skills.split(" ");
         String[] sk2 = s.split(" ");
@@ -225,7 +253,10 @@ public class MainUI extends javax.swing.JFrame {
         }
         return false;
     }
-
+    //END
+    /**
+     * FILTER DARI SKILL
+     */
     private void filterSkill() {
         DefaultTableModel model = (DefaultTableModel) tblMahasiswa.getModel();
         model.setRowCount(0);//reset the table
@@ -243,7 +274,10 @@ public class MainUI extends javax.swing.JFrame {
         retreveTable();
         System.out.println(">filter skill by " + skills);
     }
-
+    //END
+    /**
+     * PRINT SEMUA DATA KE TABLE
+     */
     public void updateTableAll() {
 
         DefaultTableModel model = (DefaultTableModel) tblMahasiswa.getModel();
@@ -257,6 +291,7 @@ public class MainUI extends javax.swing.JFrame {
             model.addRow(row);
         }
     }
+    //END
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -316,9 +351,6 @@ public class MainUI extends javax.swing.JFrame {
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtFindKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtFindKeyTyped(evt);
             }
         });
 
@@ -565,7 +597,7 @@ public class MainUI extends javax.swing.JFrame {
 
         fileMenu.setText("File");
 
-        menuInsert.setText("Insert mahasiswa");
+        menuInsert.setText("Insert...");
         menuInsert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuInsertActionPerformed(evt);
@@ -578,7 +610,7 @@ public class MainUI extends javax.swing.JFrame {
         });
         fileMenu.add(menuInsert);
 
-        menuDelete.setText("Delete mahasiswa");
+        menuDelete.setText("Delete...");
         menuDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuDeleteActionPerformed(evt);
@@ -587,7 +619,7 @@ public class MainUI extends javax.swing.JFrame {
         fileMenu.add(menuDelete);
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("Update mahasiswa");
+        jMenuItem1.setText("Update...");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -628,7 +660,7 @@ public class MainUI extends javax.swing.JFrame {
 
         menuAbout.setText("Help");
 
-        jMenuItem4.setText("About");
+        jMenuItem4.setText("About...");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
@@ -688,7 +720,20 @@ public class MainUI extends javax.swing.JFrame {
 
     private void btnSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortActionPerformed
         // TODO add your handling code here:
-        filterTable();
+        updateVar();
+        retreveTable();
+        arrayHandler=new Array();
+        arrayHandler.insert(result);
+        int by=0;
+        if (sortBy.equals("nim")) {
+            by=0;
+        }else if(sortBy.equals("nama")){
+            by=1;
+        }else{
+            by=2;
+        }
+        result=arrayHandler.sortArray(by, order);
+        updateTableAll();
     }//GEN-LAST:event_btnSortActionPerformed
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
@@ -801,11 +846,6 @@ public class MainUI extends javax.swing.JFrame {
         filterTable();
     }//GEN-LAST:event_menuRefreshActionPerformed
 
-    private void txtFindKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFindKeyTyped
-        // TODO add your handling code here:
-        filterTable();
-    }//GEN-LAST:event_txtFindKeyTyped
-
     private void txtFindKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFindKeyReleased
         // TODO add your handling code here:
         filterTable();
@@ -818,7 +858,7 @@ public class MainUI extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        new Update().setVisible(true);
+        new Edit().setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**

@@ -6,13 +6,14 @@
 package GUI;
 
 import DataEngine.Array;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Ahmad Riza
  */
-public class Update extends javax.swing.JFrame {
+public class Edit extends javax.swing.JFrame {
 
     private final int COL_NIM = 0;
     private final int COL_NAMA = 1;
@@ -36,7 +37,7 @@ public class Update extends javax.swing.JFrame {
     /**
      * Creates new form Add
      */
-    public Update() {
+    public Edit() {
         initComponents();
         setEnable(false);
 
@@ -135,7 +136,18 @@ public class Update extends javax.swing.JFrame {
 
         comboJK.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Laki-laki", "Perempuan" }));
 
+        txtWhere.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtWhereKeyPressed(evt);
+            }
+        });
+
         optBy.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NIM", "Nama" }));
+        optBy.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                optByKeyPressed(evt);
+            }
+        });
 
         btnFind.setText("Find");
         btnFind.addActionListener(new java.awt.event.ActionListener() {
@@ -259,6 +271,12 @@ public class Update extends javax.swing.JFrame {
         this.by = optBy.getSelectedIndex();
     }
 
+    /**
+     * FALIDASI STRING KE INTEGER
+     *
+     * @param STRING TEXT YANG AKAN DIVALIDASI
+     * @return BOOLEAN HASIL
+     */
     private boolean checkInt(String s) {
         try {
             Integer.parseInt(s);
@@ -268,7 +286,12 @@ public class Update extends javax.swing.JFrame {
         }
         return false;
     }
-
+    //end
+    /**
+     * VALIDASI NO. HP
+     * @param STRING NO HP
+     * @return BOOLEAN HASIL
+     */
     private boolean hpValidate(String s) {
 
         try {
@@ -284,11 +307,14 @@ public class Update extends javax.swing.JFrame {
         }
         return false;
     }
-
+    /**
+     * TOMBOL UPDATE DI PENCET
+     * @param evt 
+     */
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
         //cek kosong
-        
+
         if ("".equals(txtNIM.getText()) || "".equals(txtNama.getText()) || "".equals(txtAngkatan.getText())) {
             JOptionPane.showMessageDialog(null, "Semua form harus diisi!");
             return;
@@ -309,15 +335,15 @@ public class Update extends javax.swing.JFrame {
         if (!MainUI.empty) {
             //pencarian
             //jika ada nim sama
-            String[] res=arrayHandler.find(0, NIM);
-            if (res!=null) {
+            String[] res = arrayHandler.find(0, NIM);
+            if (res != null) {
                 if (!res[COL_NIM].equals(searchRes[COL_NIM])) {
                     JOptionPane.showMessageDialog(null, "NIM sudah ada!");
                     return;
                 }
             }
         }
-        
+
         this.Angkatan = Integer.parseInt(txtAngkatan.getText().trim());
         txtNIM.setText("");
         txtAngkatan.setText("");
@@ -353,7 +379,7 @@ public class Update extends javax.swing.JFrame {
         chkCSub.setSelected(false);
         chkHtmlCSS.setSelected(false);
         chkPhyton.setSelected(false);
-        
+
         MainUI.db.delete(searchRes[COL_NIM]);
         MainUI.db.insert(NIM, Nama, JK, Angkatan, HP, Skills);
         MainUI.saved = false;
@@ -362,7 +388,9 @@ public class Update extends javax.swing.JFrame {
         resetForm();
         setEnable(false);
     }//GEN-LAST:event_btnUpdateActionPerformed
-
+    /**
+     * SET NILAI FORM BERDASARKAN HASIL CARI
+     */
     public void setForm() {
         txtNIM.setText(searchRes[COL_NIM]);
         txtNama.setText(searchRes[COL_NAMA]);
@@ -395,12 +423,17 @@ public class Update extends javax.swing.JFrame {
         }
 
     }
-
+    /**
+     * KOSONGIN FORM
+     */
     public void resetForm() {
         txtWhere.setText("");
     }
-    
-    public void setEnable(boolean cond){
+    /**
+     * HIDUP/MATIKAN FORM
+     * @param cond TRUE/FALSE
+     */
+    public void setEnable(boolean cond) {
         if (cond) {
             txtNIM.setEnabled(true);
             txtNama.setEnabled(true);
@@ -414,7 +447,7 @@ public class Update extends javax.swing.JFrame {
             chkPhyton.setEnabled(true);
             comboJK.setEnabled(true);
             btnUpdate.setEnabled(true);
-        }else{
+        } else {
             txtNIM.setEnabled(false);
             txtNama.setEnabled(false);
             txtAngkatan.setEnabled(false);
@@ -451,6 +484,20 @@ public class Update extends javax.swing.JFrame {
         setForm();
     }//GEN-LAST:event_btnFindActionPerformed
 
+    private void txtWhereKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtWhereKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnFindActionPerformed(null);
+        }
+    }//GEN-LAST:event_txtWhereKeyPressed
+
+    private void optByKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_optByKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnFindActionPerformed(null);
+        }
+    }//GEN-LAST:event_optByKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -468,21 +515,23 @@ public class Update extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Edit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Update().setVisible(true);
+                new Edit().setVisible(true);
             }
         });
     }
