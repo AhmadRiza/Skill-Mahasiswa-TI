@@ -42,16 +42,17 @@ public class MainUI extends javax.swing.JFrame {
     private String filterGender = "";
     private String sortBy = "";
     private String order = "";
-    public static boolean saved;
+    public static boolean changed;
     public static String[][] result;
     public static DataHandler db;
     public static Array arrayHandler;
     private FileRW file;
     public static boolean empty;
-    
+
     /**
      * CONSTRUCTOR
      */
+    
     public MainUI() {
         initComponents();
         myInitComponet();
@@ -59,7 +60,7 @@ public class MainUI extends javax.swing.JFrame {
         file = new FileRW();
 
         radAll.setSelected(true);
-        saved = true;
+        changed = true;
 
         //MUAT DATA DARI DISK
         try {
@@ -76,9 +77,10 @@ public class MainUI extends javax.swing.JFrame {
         }
     }
     //END
-    
+
     /**
      * METHOD SEARCH
+     *
      * @return BOOLEAN HASIL
      */
     public boolean search() {
@@ -98,9 +100,9 @@ public class MainUI extends javax.swing.JFrame {
         }
     }
 //    END
-    
+
     /**
-     *UPDATE SEMUA VARIABEL 
+     * UPDATE SEMUA VARIABEL
      */
     public void updateVar() {
         this.where = txtFind.getText().trim().toLowerCase();
@@ -116,16 +118,16 @@ public class MainUI extends javax.swing.JFrame {
         }
         //cek filter jk
         if (radLK.isSelected()) {
-            this.filterGender="L";
-        }else if (radPR.isSelected()) {
-            this.filterGender="P";
-        }else{
-            this.filterGender="";
+            this.filterGender = "L";
+        } else if (radPR.isSelected()) {
+            this.filterGender = "P";
+        } else {
+            this.filterGender = "";
         }
         //sortby inisialisasi
         this.sortBy = optSort.getSelectedItem().toString().toLowerCase();
         this.order = optOrder.getSelectedItem().toString();
-        
+
         //cek skill
         this.skills = "";
         if (chkJava.isSelected()) {
@@ -153,10 +155,11 @@ public class MainUI extends javax.swing.JFrame {
         System.out.println(">var updated !");
     }
 //    END
+
     /**
      * RESET KOSONG SEMUA FORM
      */
-    public void resetForm(){
+    public void resetForm() {
         txtFind.setText("");
         chkJava.setSelected(false);
         chkPhp.setSelected(false);
@@ -171,6 +174,7 @@ public class MainUI extends javax.swing.JFrame {
         optOrder.setSelectedIndex(0);
     }
 //    END
+
     /**
      * FILTER SEMUA ROW TABEL
      */
@@ -189,6 +193,7 @@ public class MainUI extends javax.swing.JFrame {
             showRow();
         }
     }
+
     //END
     /**
      * TAMPILKAN JUMLAH ROW TABLE
@@ -197,6 +202,7 @@ public class MainUI extends javax.swing.JFrame {
         TableModel dtm = tblMahasiswa.getModel();
         lblResult.setText("Result = " + dtm.getRowCount() + " row");
     }
+
     //END
     /**
      * SIMPAN SEMUA VALUE PADA TABLE
@@ -214,7 +220,7 @@ public class MainUI extends javax.swing.JFrame {
         result = tableData;
     }
     //END
-    
+
     /**
      * FILTER JENIS KELAMIN
      */
@@ -229,15 +235,17 @@ public class MainUI extends javax.swing.JFrame {
                     model.addRow(row);
                 }
             }
+            retreveTable(); //SIMPAN HASIL FILTER
         } else {
             return;
         }
-        retreveTable(); //SIMPAN HASIL FILTER
         System.out.println(">filter gender by " + filterGender);
     }
+
     //END
     /**
      * CEK SKILL
+     *
      * @param SKILL YANG DI CARI
      * @return BOOLEAN HASIL
      */
@@ -253,6 +261,7 @@ public class MainUI extends javax.swing.JFrame {
         }
         return false;
     }
+
     //END
     /**
      * FILTER DARI SKILL
@@ -268,12 +277,13 @@ public class MainUI extends javax.swing.JFrame {
                     model.addRow(row);
                 }
             }
+            retreveTable();
         } else {
             return;
         }
-        retreveTable();
         System.out.println(">filter skill by " + skills);
     }
+
     //END
     /**
      * PRINT SEMUA DATA KE TABLE
@@ -313,6 +323,8 @@ public class MainUI extends javax.swing.JFrame {
         chkCSub = new javax.swing.JCheckBox();
         chkPhyton = new javax.swing.JCheckBox();
         optFind = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         optSort = new javax.swing.JComboBox<>();
@@ -343,20 +355,19 @@ public class MainUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Skill Mahasiswa TI");
+        setMinimumSize(new java.awt.Dimension(700, 500));
 
         txtFind.setToolTipText("Insert Nama");
         txtFind.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtFindKeyPressed(evt);
-            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtFindKeyReleased(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Roboto Black", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("<html>\n<b>\nSKILL<br> MAHASISWA <br>TI\n</b>\n</htmll>");
+        jLabel1.setText("<html>\n<b>\nSkill<br> Mahasiswa <br>TI\n</b>\n</htmll>");
 
         btnFind.setText("Search");
         btnFind.addActionListener(new java.awt.event.ActionListener() {
@@ -419,13 +430,26 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Asset/updatesicon.png"))); // NOI18N
+        jButton1.setToolTipText("Refresh (F5)");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Asset/icon-mhs.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -446,20 +470,24 @@ public class MainUI extends javax.swing.JFrame {
                         .addComponent(chkCSub)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(chkPhyton)))
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(optFind, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtFind, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtFind, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(chkJava)
@@ -467,7 +495,12 @@ public class MainUI extends javax.swing.JFrame {
                             .addComponent(chkHtml)
                             .addComponent(chkCPP)
                             .addComponent(chkCSub)
-                            .addComponent(chkPhyton))))
+                            .addComponent(chkPhyton)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -722,17 +755,17 @@ public class MainUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         updateVar();
         retreveTable();
-        arrayHandler=new Array();
+        arrayHandler = new Array();
         arrayHandler.insert(result);
-        int by=0;
+        int by = 0;
         if (sortBy.equals("nim")) {
-            by=0;
-        }else if(sortBy.equals("nama")){
-            by=1;
-        }else{
-            by=2;
+            by = 0;
+        } else if (sortBy.equals("nama")) {
+            by = 1;
+        } else {
+            by = 2;
         }
-        result=arrayHandler.sortArray(by, order);
+        result = arrayHandler.sortArray(by, order);
         updateTableAll();
     }//GEN-LAST:event_btnSortActionPerformed
 
@@ -745,13 +778,6 @@ public class MainUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         new Add().setVisible(true);
     }//GEN-LAST:event_menuInsertActionPerformed
-
-    private void txtFindKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFindKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            filterTable();
-        }
-    }//GEN-LAST:event_txtFindKeyPressed
 
     private void optFindKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_optFindKeyPressed
         // TODO add your handling code here:
@@ -837,7 +863,7 @@ public class MainUI extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        saved = true;
+        changed = true;
     }//GEN-LAST:event_menuSaveActionPerformed
 
     private void menuRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRefreshActionPerformed
@@ -860,6 +886,11 @@ public class MainUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         new Edit().setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        menuRefreshActionPerformed(null);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -908,9 +939,11 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkPhp;
     private javax.swing.JCheckBox chkPhyton;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem4;
@@ -955,7 +988,7 @@ public class MainUI extends javax.swing.JFrame {
                 ////saat system exit
 
                 //JIKA BELUM TERSIMPAN
-                if (!saved) {
+                if (!changed) {
                     String ObjButtons[] = {"Simpan", "Tidak"};
                     int PromptResult = JOptionPane.showOptionDialog(null,
                             "Data belum tersimpan?", "Skill Mahasiswa TI",
@@ -964,7 +997,7 @@ public class MainUI extends javax.swing.JFrame {
                     if (PromptResult == 0) {
                         try {
                             save();//simpan data
-                            saved = true;
+                            changed = true;
                         } catch (IOException ex) {
                             Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
                         }

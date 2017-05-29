@@ -296,7 +296,7 @@ public class Add extends javax.swing.JFrame {
         chkPhyton.setSelected(false);
 
         MainUI.db.insert(NIM, Nama, JK, Angkatan, HP, Skills);
-        MainUI.saved = false;
+        MainUI.changed = false;
         System.out.println("data inserted");
         JOptionPane.showMessageDialog(null, "Data berhasil dimasukkan!");
     }//GEN-LAST:event_btnADDActionPerformed

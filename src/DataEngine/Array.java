@@ -54,7 +54,7 @@ public class Array {
         this.by = by;
         this.where = where.trim().toLowerCase();
         this.whereLength = where.length();
-        sortArray(by, "DESC");
+        sortArray(by, "ASC");
         int idx = partialBinarySearch(where);
         System.out.println(idx);
         if (idx != -1) {
@@ -69,7 +69,7 @@ public class Array {
         this.by = by;
         this.where = where.trim().toLowerCase();
         this.whereLength = where.length();
-        sortArray(by, "DESC");
+        sortArray(by, "ASC");
         int idx =  clearBinarySearch(where);
         if (idx == -1) {
             return null;
@@ -91,14 +91,14 @@ public class Array {
                     return midIdx;
                 }
                 if (compare(midVal.substring(0, whereLength).toLowerCase(), where) > 0) {
-                    leftIdx = midIdx + 1;
-                } else {
                     righIdx = midIdx - 1;
+                } else {
+                    leftIdx = midIdx + 1;
                 }
             } else if (compare(midVal, where) > 0) {
-                leftIdx = midIdx + 1;
-            } else {
                 righIdx = midIdx - 1;
+            } else {
+                leftIdx = midIdx + 1;
             }
 
             midIdx = (leftIdx + righIdx) / 2;
@@ -119,9 +119,9 @@ public class Array {
                 return midIdx;
             }
             if (compare(midVal, where) > 0) {
-                leftIdx = midIdx + 1;
-            } else {
                 righIdx = midIdx - 1;
+            } else {
+                leftIdx = midIdx + 1;
             }
             midIdx = (leftIdx + righIdx) / 2;
         }
