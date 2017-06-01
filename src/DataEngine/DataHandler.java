@@ -15,35 +15,33 @@ public class DataHandler {
     boolean loaded = false;
     Array arrayHandler = new Array();
     String[][] result;
-
+    private boolean empty = true;
+    private int sortBy;
+    private String order;
+    
     public void insert(String NIM, String Nama, char JK, int Angkatan, String HP, String Skills) {
         Mahasiswa newLink = new Mahasiswa(NIM, Nama, JK, Angkatan, HP, Skills);
         mhsList.insertLast(newLink);
-        loaded=false;
-    }
-
-    public void printResult(String by, String order) {
-        result = mhsList.LoadAll(by, order);
-
-        for (int i = 0; i < result.length; i++) {
-            System.out.print(i);
-            for (int j = 0; j < result[i].length; j++) {
-                System.out.print(". " + result[i][j] + " ");
-            }
-            System.out.println("");
-        }
-        System.out.println("");
+        loaded = false;
     }
 
     public String[][] getMasterData() {
         result = mhsList.LoadData();
-        arrayHandler.insert(result);
+        if (result == null) {
+            empty = true;
+        }else{
+            empty=false;
+        }
+        if (!empty) {
+            arrayHandler.insert(result);
+        }
         loaded = true;
         System.out.println(">master data on LL loaded!!");
         return result;
     }
 
     public String[][] getResult(String by, String order) {
+
         int sortIdx = 0;
         by = by.toLowerCase();
         if (by.equals("nim")) {
@@ -53,34 +51,64 @@ public class DataHandler {
         } else if (by.equals("angkatan")) {
             sortIdx = 2;
         }
+        
         if (loaded) {
-            return arrayHandler.sortArray(sortIdx, order);
+            if (empty) {
+                return null;
+            }
+            if (this.sortBy!=sortIdx||this.order!=order) {
+                this.sortBy=sortIdx;
+                this.order=order;
+                result = arrayHandler.sortArray(sortIdx, order);
+            }
         } else {
             getMasterData();
-            return arrayHandler.sortArray(sortIdx, order);
+            if (empty) {
+                return null;
+            }
+            if (this.sortBy!=sortIdx||this.order!=order) {
+                this.sortBy=sortIdx;
+                this.order=order;
+                result = arrayHandler.sortArray(sortIdx, order);
+            }
         }
+        return result;
     }
 
     public String[][] search(int searchBy, String where) {
+
         if (loaded) {
+            if (empty) {
+                return null;
+            }
             return arrayHandler.search(searchBy, where);
+            
         } else {
             getMasterData();
+            if (empty) {
+                return null;
+            }
             return arrayHandler.search(searchBy, where);
         }
     }
 
     public String[] find(int findBy, String key) {
         if (loaded) {
+            if (empty) {
+                return null;
+            }
             return arrayHandler.find(findBy, key);
         } else {
             getMasterData();
+            if (empty) {
+                return null;
+            }
             return arrayHandler.find(findBy, key);
         }
     }
 
     public boolean delete(String key) {
-        loaded=false;
+        loaded = false;
         return mhsList.deleteKey(key);
     }
 

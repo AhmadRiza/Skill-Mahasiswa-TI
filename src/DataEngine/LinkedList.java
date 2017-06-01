@@ -56,38 +56,6 @@ public class LinkedList {
         return true;
     }
     
-    public String[][] LoadAll(String by, String order) {
-        while (isEmpty()) {
-            return null;
-        }
-        result = new String[count][6];//get data mahasiswa
-        Mahasiswa current = first;
-        int i = 0, j = 0;
-
-        while (current != null) {
-            result[i][0] = current.getNIM();
-            result[i][1] = current.getNama();
-            result[i][2] = String.valueOf(current.getAngkatan());
-            result[i][3] = String.valueOf(current.getJK());
-            result[i][4] = current.getHP();
-            result[i][5] = current.getSkills();
-
-            i++;
-            current = current.next;
-        }
-        sortHandler.insert(result);
-
-        by = by.toLowerCase();
-        if (by.equals("nim")) {
-            result = sortHandler.sortArray(0, order);
-        } else if (by.equals("nama")) {
-            result = sortHandler.sortArray(1, order);
-        } else if (by.equals("angkatan")) {
-            result = sortHandler.sortArray(2, order);
-        }
-        return result;
-    }
-    
     public String[][] LoadData() {
         while (isEmpty()) {
             return null;

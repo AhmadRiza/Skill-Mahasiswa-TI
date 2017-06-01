@@ -24,7 +24,6 @@ public class Delete extends javax.swing.JFrame {
 
     private String where;
     private int by;
-    private Array arrayHandler;
     private String[] result;
     
     
@@ -32,7 +31,6 @@ public class Delete extends javax.swing.JFrame {
      * Creates new form Delete
      */
     public Delete() {
-        arrayHandler = new Array();
         initComponents();
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
     }
@@ -246,10 +244,8 @@ public class Delete extends javax.swing.JFrame {
         // TODO add your handling code here:
         resetForm();
         updateVar();
-        arrayHandler.insert(MainUI.db.getResult("NIM", "ASC"));
-
         if (!txtFind.getText().equals("")) {
-            result = arrayHandler.find(by,where);
+            result = MainUI.db.find(by,where);
             if (result == null) {
                 JOptionPane.showMessageDialog(null, "Kata kunci tidak ditemukan!");
                 return;

@@ -154,12 +154,10 @@
                   <Component id="jLabel1" min="-2" pref="81" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <Component id="txtFind" min="-2" pref="299" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="optFind" min="-2" pref="80" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                          <Component id="btnFind" min="-2" pref="88" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="chkJava" min="-2" max="-2" attributes="0"/>
@@ -173,9 +171,16 @@
                           <Component id="chkCSub" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="chkPhyton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="chkKosong" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="85" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="optSkillCond" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnFind" min="-2" pref="88" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="81" max="32767" attributes="0"/>
                   <Component id="jButton1" min="-2" pref="43" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -199,13 +204,17 @@
                               <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="chkJava" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="chkPhp" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="chkHtml" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="chkCPP" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="chkCSub" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="chkPhyton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="chkJava" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chkPhp" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chkHtml" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chkCPP" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chkCSub" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chkPhyton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="chkKosong" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="optSkillCond" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
@@ -336,6 +345,31 @@
             </Property>
           </Properties>
         </Component>
+        <Component class="javax.swing.JComboBox" name="optSkillCond">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="2">
+                <StringItem index="0" value="OR"/>
+                <StringItem index="1" value="AND"/>
+              </StringArray>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="filter skill condition"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optSkillCondActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="chkKosong">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Kosong"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkKosongActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel2">
@@ -399,7 +433,7 @@
                   <Component id="radPR" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="btnFilter" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="83" max="32767" attributes="0"/>
+                  <EmptySpace pref="78" max="32767" attributes="0"/>
                   <Component id="lblResult" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
               </Group>

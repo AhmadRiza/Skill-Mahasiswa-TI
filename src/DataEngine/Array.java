@@ -51,10 +51,12 @@ public class Array {
 
     //search
     public String[][] search(int by, String where) {
-        this.by = by;
         this.where = where.trim().toLowerCase();
         this.whereLength = where.length();
-        sortArray(by, "ASC");
+        if (this.by!=by) {
+            this.by = by;
+            sortArray(by, "ASC");
+        }
         int idx = partialBinarySearch(where);
         System.out.println(idx);
         if (idx != -1) {

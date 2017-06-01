@@ -20,8 +20,6 @@ public class Add extends javax.swing.JFrame {
     private int Angkatan;
     private String HP;
     private String Skills = "";
-    private Array arrayHandler;
-    private String[][] result;
 
     /**
      * Creates new form Add
@@ -250,11 +248,8 @@ public class Add extends javax.swing.JFrame {
 
         if (!MainUI.empty) {
             //pencarian
-            result = MainUI.db.getResult("NIM", "ASC");
-            this.arrayHandler = new Array();
-            arrayHandler.insert(result);
             //jika ada nim sama
-            if (arrayHandler.find(0, NIM) != null) {
+            if (MainUI.db.find(0, NIM) != null) {
                 JOptionPane.showMessageDialog(null, "NIM sudah ada!");
                 return;
             }
@@ -287,7 +282,9 @@ public class Add extends javax.swing.JFrame {
             Skills += " phyton";
         }
         Skills = Skills.trim();//hapus spasi
-
+        if (Skills.equals("")) {
+            Skills="<kosong>";
+        }
         chkJava.setSelected(false);
         chkPhp.setSelected(false);
         chkCPP.setSelected(false);

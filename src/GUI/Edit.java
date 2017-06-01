@@ -31,7 +31,6 @@ public class Edit extends javax.swing.JFrame {
     private int Angkatan;
     private String HP;
     private String Skills = "";
-    private Array arrayHandler;
     private String[] searchRes;
 
     /**
@@ -43,10 +42,6 @@ public class Edit extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 
-        if (!MainUI.empty) {
-            this.arrayHandler = new Array();
-            arrayHandler.insert(MainUI.db.getResult("NIM", "ASC"));
-        }
     }
 
     /**
@@ -335,7 +330,7 @@ public class Edit extends javax.swing.JFrame {
         if (!MainUI.empty) {
             //pencarian
             //jika ada nim sama
-            String[] res = arrayHandler.find(0, NIM);
+            String[] res = MainUI.db.find(0, NIM);
             if (res != null) {
                 if (!res[COL_NIM].equals(searchRes[COL_NIM])) {
                     JOptionPane.showMessageDialog(null, "NIM sudah ada!");
@@ -467,12 +462,15 @@ public class Edit extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setVisible(false);
     }//GEN-LAST:event_btnCancelActionPerformed
-
+    /**
+     * find mahasiswa
+     * @param evt 
+     */
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
         // TODO add your handling code here:
         updateVar();
         if (!where.equals("")) {
-            searchRes = arrayHandler.find(by, where);
+            searchRes = MainUI.db.find(by, where);
             if (searchRes == null) {
                 JOptionPane.showMessageDialog(null, "Kata kunci tidak ditemukan!");
                 return;

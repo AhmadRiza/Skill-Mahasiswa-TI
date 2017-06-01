@@ -40,7 +40,6 @@ public class Heap {
     
     public String[][] heapSortASC(int by){
         this.by = by;
-        
         int sizeTemp=currentSize;
         for (int i = currentSize/2-1; i >= 0; i--) {//trikle down n/2-1 
             tricleDown(i);
@@ -50,18 +49,25 @@ public class Heap {
             insertAt(i, temp);
         }
         currentSize=sizeTemp;
+        System.out.println("sorted on idx "+by+" ASC");
         return heapArray;
     }
     
     public String[][] heapSortDESC(int by){
-        heapSortASC(by);
-        String[][] temp = new String[heapArray.length][heapArray[0].length];
-        int j=heapArray.length-1;
-        for (int i = 0; i <heapArray.length; i++) {
-            temp[i]=heapArray[j];
-            j--;
+        this.by = by;
+        
+        String[][] result = new String[heapArray.length][heapArray[0].length];
+        int sizeTemp=currentSize;
+        for (int i = currentSize/2-1; i >= 0; i--) {//trikle down n/2-1 
+            tricleDown(i);
         }
-        return temp;
+        for (int i = 0; i <maxSize; i++) {
+            result[i]=remove();
+        }
+        heapArray=result;
+        currentSize=sizeTemp;
+        System.out.println("sorted on idx "+by+" DESC");
+        return heapArray;
     }
     
     public int compare(String a, String b) {

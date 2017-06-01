@@ -42,8 +42,8 @@ public class MainUI extends javax.swing.JFrame {
     private String filterGender = "";
     private String sortBy = "";
     private String order = "";
+    private String filterSkillCond="";
     public static boolean saved;
-    public static String[][] masterData;
     public static String[][] result;
     public static DataHandler db;
     public static Array arrayHandler;
@@ -68,8 +68,10 @@ public class MainUI extends javax.swing.JFrame {
                 for (int i = 0; i < result.length; i++) {
                     db.insert(result[i][COL_NIM], result[i][COL_NAMA].toUpperCase(), result[i][COL_JK].charAt(0), Integer.parseInt(result[i][COL_ANGKATA]), result[i][COL_HP], result[i][COL_SKILL]);
                 }
+                System.out.println(">data system created");
                 filterTable();
             } else {
+                System.out.println(">no content");
                 empty = true;
             }
         } catch (IOException ex) {
@@ -77,46 +79,6 @@ public class MainUI extends javax.swing.JFrame {
         }
     }
     //END
-
-    /**
-     * METHOD SEARCH
-     *
-     * @return BOOLEAN HASIL
-     */
-    public boolean search() {
-        ////////////cek kosong
-        if (!where.equals("")) {
-            arrayHandler = new Array();
-            arrayHandler.insert(result);
-            result = arrayHandler.search(searchBy, where);
-            if (result == null) {
-                empty = true;
-                return false;
-            } else {
-                return true;
-            }
-        } else {//do nothing
-            return true;
-        }
-    }
-//    END
-
-    /**
-     * New search from method
-     */
-    public boolean search1() {
-        if (!where.equals("")) {
-            result = db.search(searchBy, where);
-            if (result == null) {
-                empty = true;
-                return false;
-            } else {
-                return true;
-            }
-        } else {//do nothing
-            return true;
-        }
-    }
 
     /**
      * UPDATE SEMUA VARIABEL
@@ -144,7 +106,7 @@ public class MainUI extends javax.swing.JFrame {
         //sortby inisialisasi
         this.sortBy = optSort.getSelectedItem().toString().toLowerCase();
         this.order = optOrder.getSelectedItem().toString();
-
+        this.filterSkillCond=optSkillCond.getSelectedItem().toString();
         //cek skill
         this.skills = "";
         if (chkJava.isSelected()) {
@@ -165,18 +127,38 @@ public class MainUI extends javax.swing.JFrame {
         if (chkPhyton.isSelected()) {
             skills += " phyton";
         }
+        if (chkKosong.isSelected()) {
+            skills += " <kosong>";
+        }
 
         skills = skills.trim();
-        System.out.println(skills);
         //get all result sorted
 
-        masterData = db.getResult(sortBy, order);
-        result = masterData;
+        result = db.getResult(sortBy, order);;
 
         empty = (result == null);
         System.out.println(">var updated !");
     }
 //    END
+
+    /**
+     * METHOD SEARCH
+     *
+     * @return BOOLEAN HASIL
+     */
+    public boolean search() {
+        if (!where.equals("")) {
+            result = db.search(searchBy, where);
+            if (result == null) {
+                empty = true;
+                return false;
+            } else {
+                return true;
+            }
+        } else {//do nothing
+            return true;
+        }
+    }
 
     /**
      * RESET KOSONG SEMUA FORM
@@ -206,7 +188,7 @@ public class MainUI extends javax.swing.JFrame {
         if (!empty) {
             filterSkill();
             filterJK();
-            if (!search1()) {
+            if (!search()) {
                 System.out.println("search result not found!");
                 updateTableAll();
             } else {
@@ -272,17 +254,35 @@ public class MainUI extends javax.swing.JFrame {
      * @param SKILL YANG DI CARI
      * @return BOOLEAN HASIL
      */
-    public boolean checkSkill(String s) {
-        String[] sk = skills.split(" ");
-        String[] sk2 = s.split(" ");
-        for (int i = 0; i < sk.length; i++) {
-            for (int j = 0; j < sk2.length; j++) {
-                if (sk[i].equals(sk2[j])) {
+    
+    public boolean checkSkillOR(String s) {
+        String[] skillMain = skills.split(" ");
+        String[] skillParam = s.split(" ");
+        for (int i = 0; i < skillMain.length; i++) {
+            for (int j = 0; j < skillParam.length; j++) {
+                if (skillMain[i].equals(skillParam[j])) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    public boolean checkSkillAND(String s) {
+        String[] skillMain = skills.split(" ");
+        String[] skillParam = s.split(" ");
+        boolean found = true;
+
+        for (int i = 0; i < skillMain.length&&found; i++) {
+            found = false;
+            for (int j = 0; j < skillParam.length; j++) {
+                if (skillParam[j].equals(skillMain[i])) {
+                    found = true;
+                    break;
+                }
+            }
+        }
+        return found;
     }
 
     //END
@@ -295,7 +295,7 @@ public class MainUI extends javax.swing.JFrame {
 
         if (!skills.equals("")) {
             for (int i = 0; i < result.length; i++) {
-                if (checkSkill(result[i][COL_SKILL])) {
+                if (filterSkillCond.equals("OR")?checkSkillOR(result[i][COL_SKILL]):checkSkillAND(result[i][COL_SKILL])) {
                     Object[] row = {result[i][COL_NIM], result[i][COL_NAMA], result[i][COL_ANGKATA], result[i][COL_JK], result[i][COL_HP], result[i][COL_SKILL]};
                     model.addRow(row);
                 }
@@ -348,6 +348,8 @@ public class MainUI extends javax.swing.JFrame {
         optFind = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        optSkillCond = new javax.swing.JComboBox<>();
+        chkKosong = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         optSort = new javax.swing.JComboBox<>();
@@ -464,6 +466,21 @@ public class MainUI extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Asset/icon-mhs.png"))); // NOI18N
 
+        optSkillCond.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OR", "AND" }));
+        optSkillCond.setToolTipText("filter skill condition");
+        optSkillCond.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optSkillCondActionPerformed(evt);
+            }
+        });
+
+        chkKosong.setText("Kosong");
+        chkKosong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkKosongActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -478,9 +495,7 @@ public class MainUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtFind, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(optFind, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(optFind, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(chkJava)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -492,8 +507,14 @@ public class MainUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(chkCSub)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(chkPhyton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                        .addComponent(chkPhyton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(chkKosong)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(optSkillCond, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFind, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -512,13 +533,16 @@ public class MainUI extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(chkJava)
-                            .addComponent(chkPhp)
-                            .addComponent(chkHtml)
-                            .addComponent(chkCPP)
-                            .addComponent(chkCSub)
-                            .addComponent(chkPhyton)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(chkJava)
+                                .addComponent(chkPhp)
+                                .addComponent(chkHtml)
+                                .addComponent(chkCPP)
+                                .addComponent(chkCSub)
+                                .addComponent(chkPhyton)
+                                .addComponent(chkKosong))
+                            .addComponent(optSkillCond, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -623,7 +647,7 @@ public class MainUI extends javax.swing.JFrame {
                 .addComponent(radPR)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnFilter)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                 .addComponent(lblResult)
                 .addGap(58, 58, 58))
         );
@@ -777,7 +801,7 @@ public class MainUI extends javax.swing.JFrame {
     private void btnSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortActionPerformed
         // TODO add your handling code here:
         updateVar();
-        
+
         if (!txtFind.getText().equals("")) {
             retreveTable();
             arrayHandler = new Array();
@@ -918,6 +942,16 @@ public class MainUI extends javax.swing.JFrame {
         menuRefreshActionPerformed(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void optSkillCondActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optSkillCondActionPerformed
+        // TODO add your handling code here:
+        filterTable();
+    }//GEN-LAST:event_optSkillCondActionPerformed
+
+    private void chkKosongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkKosongActionPerformed
+        // TODO add your handling code here:
+        filterTable();
+    }//GEN-LAST:event_chkKosongActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -962,6 +996,7 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkCSub;
     private javax.swing.JCheckBox chkHtml;
     private javax.swing.JCheckBox chkJava;
+    private javax.swing.JCheckBox chkKosong;
     private javax.swing.JCheckBox chkPhp;
     private javax.swing.JCheckBox chkPhyton;
     private javax.swing.JMenu fileMenu;
@@ -989,6 +1024,7 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuSave;
     private javax.swing.JComboBox<String> optFind;
     private javax.swing.JComboBox<String> optOrder;
+    private javax.swing.JComboBox<String> optSkillCond;
     private javax.swing.JComboBox<String> optSort;
     private javax.swing.JRadioButton radAll;
     private javax.swing.JRadioButton radLK;
