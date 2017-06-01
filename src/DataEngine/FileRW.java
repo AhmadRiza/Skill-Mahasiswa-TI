@@ -89,6 +89,7 @@ public class FileRW {
             row = rows[i].split(",");
             result[i] = row;
         }
+        System.out.println(">data on disk red");
         return result;
     }
 
