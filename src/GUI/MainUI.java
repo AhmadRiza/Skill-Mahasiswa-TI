@@ -43,7 +43,6 @@ public class MainUI extends javax.swing.JFrame {
     private String sortBy = "";
     private String order = "";
     public static boolean saved;
-    public static boolean resChange;
     public static String[][] masterData;
     public static String[][] result;
     public static DataHandler db;
@@ -54,7 +53,6 @@ public class MainUI extends javax.swing.JFrame {
     /**
      * CONSTRUCTOR
      */
-    
     public MainUI() {
         initComponents();
         myInitComponet();
@@ -104,6 +102,23 @@ public class MainUI extends javax.swing.JFrame {
 //    END
 
     /**
+     * New search from method
+     */
+    public boolean search1() {
+        if (!where.equals("")) {
+            result = db.search(searchBy, where);
+            if (result == null) {
+                empty = true;
+                return false;
+            } else {
+                return true;
+            }
+        } else {//do nothing
+            return true;
+        }
+    }
+
+    /**
      * UPDATE SEMUA VARIABEL
      */
     public void updateVar() {
@@ -150,12 +165,14 @@ public class MainUI extends javax.swing.JFrame {
         if (chkPhyton.isSelected()) {
             skills += " phyton";
         }
-        
+
         skills = skills.trim();
         System.out.println(skills);
         //get all result sorted
-        
-        result = db.getResult(sortBy, order);
+
+        masterData = db.getResult(sortBy, order);
+        result = masterData;
+
         empty = (result == null);
         System.out.println(">var updated !");
     }
@@ -189,7 +206,7 @@ public class MainUI extends javax.swing.JFrame {
         if (!empty) {
             filterSkill();
             filterJK();
-            if (!search()) {
+            if (!search1()) {
                 System.out.println("search result not found!");
                 updateTableAll();
             } else {
@@ -223,6 +240,7 @@ public class MainUI extends javax.swing.JFrame {
             }
         }
         result = tableData;
+        System.out.println(">Table retrieved!");
     }
     //END
 
@@ -759,18 +777,21 @@ public class MainUI extends javax.swing.JFrame {
     private void btnSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortActionPerformed
         // TODO add your handling code here:
         updateVar();
-        retreveTable();
-        arrayHandler = new Array();
-        arrayHandler.insert(result);
-        int by = 0;
-        if (sortBy.equals("nim")) {
-            by = 0;
-        } else if (sortBy.equals("nama")) {
-            by = 1;
-        } else {
-            by = 2;
+        
+        if (!txtFind.getText().equals("")) {
+            retreveTable();
+            arrayHandler = new Array();
+            arrayHandler.insert(result);
+            int by = 0;
+            if (sortBy.equals("nim")) {
+                by = 0;
+            } else if (sortBy.equals("nama")) {
+                by = 1;
+            } else {
+                by = 2;
+            }
+            result = arrayHandler.sortArray(by, order);
         }
-        result = arrayHandler.sortArray(by, order);
         updateTableAll();
     }//GEN-LAST:event_btnSortActionPerformed
 

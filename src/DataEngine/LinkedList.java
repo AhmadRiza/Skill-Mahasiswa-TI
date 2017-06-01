@@ -88,6 +88,29 @@ public class LinkedList {
         return result;
     }
     
+    public String[][] LoadData() {
+        while (isEmpty()) {
+            return null;
+        }
+        result = new String[count][6];//get data mahasiswa
+        Mahasiswa current = first;
+        int i = 0, j = 0;
+
+        while (current != null) {
+            result[i][0] = current.getNIM();
+            result[i][1] = current.getNama();
+            result[i][2] = String.valueOf(current.getAngkatan());
+            result[i][3] = String.valueOf(current.getJK());
+            result[i][4] = current.getHP();
+            result[i][5] = current.getSkills();
+
+            i++;
+            current = current.next;
+        }
+        
+        return result;
+    }
+    
 
     
     
