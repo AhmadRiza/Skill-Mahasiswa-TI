@@ -5,7 +5,7 @@
             <url>src/GUI/MainUI.java</url>
             <bookmark id="1">
                 <name/>
-                <line>684</line>
+                <line>728</line>
                 <key/>
             </bookmark>
             <bookmark id="2">
@@ -17,9 +17,6 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Java/Skill-Mahasiswa-TI/src/GUI/Delete.java</file>
-            <file>file:/D:/Java/Skill-Mahasiswa-TI/src/GUI/Add.java</file>
-            <file>file:/D:/Java/Skill-Mahasiswa-TI/src/GUI/Edit.java</file>
             <file>file:/D:/Java/Skill-Mahasiswa-TI/src/GUI/MainUI.java</file>
         </group>
     </open-files>

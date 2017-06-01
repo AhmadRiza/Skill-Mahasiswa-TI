@@ -275,7 +275,7 @@ public class Delete extends javax.swing.JFrame {
         if (MainUI.db.delete(result[COL_NIM])) {
             JOptionPane.showMessageDialog(null, "Berhasil di hapus!");
             System.out.println("data deleted");
-            MainUI.changed=false;
+            MainUI.saved=false;
         } else {
             JOptionPane.showMessageDialog(null, "Gagal dihapus");
         }

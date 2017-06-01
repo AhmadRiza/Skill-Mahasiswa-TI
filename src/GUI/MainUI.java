@@ -42,7 +42,9 @@ public class MainUI extends javax.swing.JFrame {
     private String filterGender = "";
     private String sortBy = "";
     private String order = "";
-    public static boolean changed;
+    public static boolean saved;
+    public static boolean resChange;
+    public static String[][] masterData;
     public static String[][] result;
     public static DataHandler db;
     public static Array arrayHandler;
@@ -60,13 +62,13 @@ public class MainUI extends javax.swing.JFrame {
         file = new FileRW();
 
         radAll.setSelected(true);
-        changed = true;
+        saved = true;
 
         //MUAT DATA DARI DISK
         try {
             if ((result = file.readFile()) != null) {
                 for (int i = 0; i < result.length; i++) {
-                    db.insert(result[i][COL_NIM], result[i][COL_NAMA], result[i][COL_JK].charAt(0), Integer.parseInt(result[i][COL_ANGKATA]), result[i][COL_HP], result[i][COL_SKILL]);
+                    db.insert(result[i][COL_NIM], result[i][COL_NAMA].toUpperCase(), result[i][COL_JK].charAt(0), Integer.parseInt(result[i][COL_ANGKATA]), result[i][COL_HP], result[i][COL_SKILL]);
                 }
                 filterTable();
             } else {
@@ -148,8 +150,11 @@ public class MainUI extends javax.swing.JFrame {
         if (chkPhyton.isSelected()) {
             skills += " phyton";
         }
+        
         skills = skills.trim();
         System.out.println(skills);
+        //get all result sorted
+        
         result = db.getResult(sortBy, order);
         empty = (result == null);
         System.out.println(">var updated !");
@@ -863,7 +868,7 @@ public class MainUI extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        changed = true;
+        saved = true;
     }//GEN-LAST:event_menuSaveActionPerformed
 
     private void menuRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRefreshActionPerformed
@@ -988,7 +993,7 @@ public class MainUI extends javax.swing.JFrame {
                 ////saat system exit
 
                 //JIKA BELUM TERSIMPAN
-                if (!changed) {
+                if (!saved) {
                     String ObjButtons[] = {"Simpan", "Tidak"};
                     int PromptResult = JOptionPane.showOptionDialog(null,
                             "Data belum tersimpan?", "Skill Mahasiswa TI",
@@ -997,7 +1002,7 @@ public class MainUI extends javax.swing.JFrame {
                     if (PromptResult == 0) {
                         try {
                             save();//simpan data
-                            changed = true;
+                            saved = true;
                         } catch (IOException ex) {
                             Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
                         }

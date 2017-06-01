@@ -382,7 +382,7 @@ public class Edit extends javax.swing.JFrame {
 
         MainUI.db.delete(searchRes[COL_NIM]);
         MainUI.db.insert(NIM, Nama, JK, Angkatan, HP, Skills);
-        MainUI.changed = false;
+        MainUI.saved = false;
         System.out.println("data updated");
         JOptionPane.showMessageDialog(null, "Data berhasil diperbarui!");
         resetForm();
