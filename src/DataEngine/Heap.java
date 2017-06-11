@@ -54,16 +54,19 @@ public class Heap {
     }
     
     public String[][] heapSortDESC(int by){
-        this.by = by;
+        this.by = by;//index sorting
         
-        String[][] result = new String[heapArray.length][heapArray[0].length];
-        int sizeTemp=currentSize;
+        String[][] result = new String[heapArray.length][heapArray[0].length];//srrsy bust nyimpsn
+        int sizeTemp=currentSize;//nyimpsn size sementara
+        
         for (int i = currentSize/2-1; i >= 0; i--) {//trikle down n/2-1 
             tricleDown(i);
         }
-        for (int i = 0; i <maxSize; i++) {
+        
+        for (int i = 0; i <maxSize; i++) {//
             result[i]=remove();
         }
+        
         heapArray=result;
         currentSize=sizeTemp;
         System.out.println("sorted on idx "+by+" DESC");

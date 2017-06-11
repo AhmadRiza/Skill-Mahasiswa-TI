@@ -13,8 +13,11 @@ import java.io.IOException;
  */
 public class coba {
     public static void main(String[] args) throws IOException {
-        String s ="0883667k";
-        System.out.println(s.substring(3,s.length()));
+        
+        int a = 8;
+        int b = 3;
+        double c= a/b;
+        System.out.println(c);
     }
    
 }

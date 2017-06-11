@@ -44,11 +44,11 @@ public class MainUI extends javax.swing.JFrame {
     private String order = "";
     private String filterSkillCond="";
     public static boolean saved;
+    public static boolean empty;
     public static String[][] result;
     public static DataHandler db;
     public static Array arrayHandler;
     private FileRW file;
-    public static boolean empty;
 
     /**
      * CONSTRUCTOR
@@ -156,6 +156,7 @@ public class MainUI extends javax.swing.JFrame {
                 return true;
             }
         } else {//do nothing
+            db.setSortIdx(searchBy);
             return true;
         }
     }

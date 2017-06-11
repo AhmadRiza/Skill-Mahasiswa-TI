@@ -24,7 +24,7 @@ public class DataHandler {
         mhsList.insertLast(newLink);
         loaded = false;
     }
-
+    
     public String[][] getMasterData() {
         result = mhsList.LoadData();
         if (result == null) {
@@ -111,5 +111,8 @@ public class DataHandler {
         loaded = false;
         return mhsList.deleteKey(key);
     }
-
+    
+    public void setSortIdx(int idx){
+        this.sortBy=idx;
+    }
 }
